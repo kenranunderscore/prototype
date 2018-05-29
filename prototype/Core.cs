@@ -2,6 +2,7 @@
 {
     using System;
     using static SDL2.SDL;
+    using static SDL2.SDL_image;
 
     internal class Core
     {
@@ -29,6 +30,11 @@
             }
 
             renderer_ = SDL_CreateRenderer(window_, 0, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+
+            if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG) < 0)
+            {
+                return false;
+            }
 
             return true;
         }
