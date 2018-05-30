@@ -6,6 +6,8 @@
     <RootNamespace>prototype.GUI</RootNamespace>
     <AssemblyName>prototype</AssemblyName>
     <Platforms>x64</Platforms>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>prototype.GUI.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

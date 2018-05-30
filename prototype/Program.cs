@@ -6,11 +6,11 @@
     {
         public static void Main(string[] args)
         {
-            var core = new Core();
-            if (!core.Initialize())
+            var core = new Core(new SdlInitializer());
+            var initializationResult = core.Initialize();
+            if (!initializationResult.Success)
             {
-                Console.WriteLine("Core SDL functionality failed to initialize");
-                Environment.Exit(-1);
+                Console.WriteLine(initializationResult.Message);
             }
 
             core.Run();

@@ -2,19 +2,24 @@
 {
     using System;
     using static SDL2.SDL;
-    using static SDL2.SDL_image;
 
     internal class Core
     {
         private IntPtr window_;
         private IntPtr renderer_;
+        private readonly ISdlInitializer initializer_;
 
-        public bool Initialize()
+        public Core(ISdlInitializer initializer)
         {
-            SDL_SetHint(SDL_HINT_WINDOWS_DISABLE_THREAD_NAMING, "1");
-            if (SDL_Init(SDL_INIT_VIDEO) < 0)
+            initializer_ = initializer;
+        }
+
+        public SdlResult Initialize()
+        {
+            var initializationResult = initializer_.Initialize();
+            if (!initializationResult.Success)
             {
-                return false;
+                return initializationResult;
             }
 
             window_ = SDL_CreateWindow(
@@ -26,17 +31,12 @@
                 SDL_WindowFlags.SDL_WINDOW_SHOWN);
             if (window_ == IntPtr.Zero)
             {
-                return false;
+                return SdlResult.Invalid("Window creation failed");
             }
 
             renderer_ = SDL_CreateRenderer(window_, 0, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
 
-            if (IMG_Init(IMG_InitFlags.IMG_INIT_PNG) < 0)
-            {
-                return false;
-            }
-
-            return true;
+            return SdlResult.Valid;
         }
 
         public void Run()
