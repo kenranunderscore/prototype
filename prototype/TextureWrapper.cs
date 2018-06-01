@@ -24,6 +24,12 @@
             SDL_RenderCopy(renderer_, texture_, IntPtr.Zero, ref renderArea);
         }
 
+        public void Render(int x, int y, SDL_Rect clip, double scale = 1d)
+        {
+            var renderArea = new SDL_Rect { x = x, y = y, w = Scale(clip.w, scale), h = Scale(clip.h, scale) };
+            SDL_RenderCopy(renderer_, texture_, ref clip, ref renderArea);
+        }
+
         private static int Scale(int length, double scale) => (int)(scale * length);
 
         public void Free()
