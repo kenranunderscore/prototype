@@ -18,6 +18,14 @@
             height_ = height;
         }
 
+        public void Render(int x, int y, double scale = 1d)
+        {
+            var renderArea = new SDL_Rect { x = x, y = y, w = Scale(width_, scale), h = Scale(width_, scale) };
+            SDL_RenderCopy(renderer_, texture_, IntPtr.Zero, ref renderArea);
+        }
+
+        private static int Scale(int length, double scale) => (int)(scale * length);
+
         public void Free()
         {
             SDL_DestroyTexture(texture_);
