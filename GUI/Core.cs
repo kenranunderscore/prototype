@@ -5,13 +5,15 @@
 
     internal class Core
     {
+        private readonly ISdlInitializer initializer_;
+        private readonly Screen screen_;
         private IntPtr window_;
         private IntPtr renderer_;
-        private readonly ISdlInitializer initializer_;
 
-        public Core(ISdlInitializer initializer)
+        public Core(ISdlInitializer initializer, Screen screen)
         {
             initializer_ = initializer;
+            screen_ = screen;
         }
 
         public SdlResult Initialize()
@@ -26,8 +28,8 @@
                 "prototype",
                 SDL_WINDOWPOS_UNDEFINED,
                 SDL_WINDOWPOS_UNDEFINED,
-                800,
-                600,
+                screen_.Width,
+                screen_.Height,
                 SDL_WindowFlags.SDL_WINDOW_SHOWN);
             if (window_ == IntPtr.Zero)
             {
@@ -43,24 +45,23 @@
         {
             var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips());
             textRenderer.Initialize(renderer_);
+            var menu = new MainMenu(textRenderer, screen_);
 
             while (true)
             {
-                if (SDL_PollEvent(out var evnt) != 0)
+                if (SDL_PollEvent(out var e) != 0)
                 {
-                    if (evnt.type == SDL_EventType.SDL_QUIT
-                        || evnt.type == SDL_EventType.SDL_KEYDOWN
-                        && evnt.key.keysym.sym == SDL_Keycode.SDLK_ESCAPE)
+                    if (e.type == SDL_EventType.SDL_QUIT
+                        || e.type == SDL_EventType.SDL_KEYDOWN
+                        && e.key.keysym.sym == SDL_Keycode.SDLK_ESCAPE)
                     {
                         break;
                     }
                 }
 
-                SDL_SetRenderDrawColor(renderer_, 0xff, 0xff, 0xff, 0xff);
+                SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0xff);
                 SDL_RenderClear(renderer_);
-                textRenderer.RenderCropped(
-                    "Freddi ist ein suesser Mensch! Er ist der suesseste von allen :-)",
-                    new SDL_Rect { x = 200, y = 10, w = 50, h = 100 });
+                menu.Render();
                 SDL_RenderPresent(renderer_);
             }
         }

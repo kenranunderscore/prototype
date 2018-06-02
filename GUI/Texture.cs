@@ -31,6 +31,11 @@
             SDL_RenderCopy(renderer_, texture_, ref clip, ref renderArea);
         }
 
+        public void SetColor(SDL_Color color)
+        {
+            SDL_SetTextureColorMod(texture_, color.r, color.g, color.b);
+        }
+
         private static int Scale(int length, double scale) => (int)(scale * length);
 
         public void Free()

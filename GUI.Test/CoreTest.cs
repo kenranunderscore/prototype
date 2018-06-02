@@ -11,7 +11,7 @@
         {
             var initializerMock = new Mock<ISdlInitializer>();
             initializerMock.Setup(_ => _.Initialize()).Returns(SdlResult.Invalid("foo"));
-            var core = new Core(initializerMock.Object);
+            var core = new Core(initializerMock.Object, new Screen(800, 600));
             Assert.That(core.Initialize().Success, Is.False);
         }
     }

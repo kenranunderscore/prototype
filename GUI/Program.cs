@@ -6,7 +6,7 @@
     {
         public static void Main(string[] args)
         {
-            var core = new Core(new SdlInitializer());
+            var core = new Core(new SdlInitializer(), new Screen(1280, 720));
             var initializationResult = core.Initialize();
             if (!initializationResult.Success)
             {
