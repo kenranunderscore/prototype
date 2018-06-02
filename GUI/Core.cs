@@ -41,6 +41,9 @@
 
         public void Run()
         {
+            var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper());
+            textRenderer.Initialize(renderer_);
+
             while (true)
             {
                 if (SDL_PollEvent(out var evnt) != 0)
@@ -55,6 +58,9 @@
 
                 SDL_SetRenderDrawColor(renderer_, 0xff, 0xff, 0xff, 0xff);
                 SDL_RenderClear(renderer_);
+                textRenderer.RenderCropped(
+                    "Freddi ist ein suesser Mensch! Er ist der suesseste von allen :-)",
+                    new SDL_Rect { x = 200, y = 10, w = 50, h = 100 });
                 SDL_RenderPresent(renderer_);
             }
         }
