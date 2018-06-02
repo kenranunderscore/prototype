@@ -3,10 +3,14 @@
     using System.Collections.Generic;
     using SDL2;
 
-    internal static class LetterClips
+    internal class LetterClips : ILetterClips
     {
-        public const int LetterWidth = 8;
-        public const int LetterHeight = 12;
+        //TODO parameterize width/height to enable loading different png dimensions/ratios
+        private static readonly int letterWidth_ = 8;
+        private static readonly int letterHeight_ = 12;
+
+        public int LetterWidth => letterWidth_;
+        public int LetterHeight => letterHeight_;
 
         private static readonly IReadOnlyDictionary<char, SDL.SDL_Rect> Clips = new Dictionary<char, SDL.SDL_Rect>
         {
@@ -117,12 +121,12 @@
         private static SDL.SDL_Rect ClipFromIndices(int x, int y) =>
             new SDL.SDL_Rect
             {
-                x = x * LetterWidth,
-                y = y * LetterHeight,
-                w = LetterWidth,
-                h = LetterHeight
+                x = x * letterWidth_,
+                y = y * letterHeight_,
+                w = letterWidth_,
+                h = letterHeight_
             };
 
-        public static SDL.SDL_Rect GetClip(char c) => Clips[c];
+        public SDL.SDL_Rect GetClip(char c) => Clips[c];
     }
 }

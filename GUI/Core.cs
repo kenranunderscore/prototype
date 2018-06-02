@@ -41,7 +41,7 @@
 
         public void Run()
         {
-            var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper());
+            var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips());
             textRenderer.Initialize(renderer_);
 
             while (true)

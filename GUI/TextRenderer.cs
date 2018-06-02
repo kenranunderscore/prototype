@@ -5,16 +5,16 @@
 
     internal class TextRenderer
     {
-        //TODO parameterize width/height to enable loading different png dimensions/ratios
-
-        private readonly TextureLoader textureLoader_;
+        private readonly ITextureLoader textureLoader_;
         private readonly TextCropper cropper_;
-        private TextureWrapper letters_;
+        private readonly ILetterClips letterClips_;
+        private ITexture letters_;
 
-        public TextRenderer(TextureLoader textureLoader, TextCropper cropper)
+        public TextRenderer(ITextureLoader textureLoader, TextCropper cropper, ILetterClips letterClips)
         {
             textureLoader_ = textureLoader;
             cropper_ = cropper;
+            letterClips_ = letterClips;
         }
 
         public void Initialize(IntPtr renderer)
@@ -29,15 +29,15 @@
             {
                 var character = text[j];
                 letters_.Render(
-                    targetArea.x + j * LetterClips.LetterWidth,
+                    targetArea.x + j * letterClips_.LetterWidth,
                     targetArea.y,
-                    LetterClips.GetClip(character));
+                    letterClips_.GetClip(character));
             }
         }
 
         public void RenderCropped(string text, SDL_Rect area)
         {
-            Render(cropper_.Crop(text, area.w, LetterClips.LetterWidth), area);
+            Render(cropper_.Crop(text, area.w, letterClips_.LetterWidth), area);
         }
     }
 }
