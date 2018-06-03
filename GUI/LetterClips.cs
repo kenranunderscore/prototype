@@ -5,13 +5,6 @@
 
     internal class LetterClips : ILetterClips
     {
-        //TODO parameterize width/height to enable loading different png dimensions/ratios
-        private static readonly int letterWidth_ = 8;
-        private static readonly int letterHeight_ = 12;
-
-        public int LetterWidth => letterWidth_;
-        public int LetterHeight => letterHeight_;
-
         private static readonly IReadOnlyDictionary<char, SDL.SDL_Rect> Clips = new Dictionary<char, SDL.SDL_Rect>
         {
             [' '] = ClipFromIndices(0, 0),
@@ -121,10 +114,10 @@
         private static SDL.SDL_Rect ClipFromIndices(int x, int y) =>
             new SDL.SDL_Rect
             {
-                x = x * letterWidth_,
-                y = y * letterHeight_,
-                w = letterWidth_,
-                h = letterHeight_
+                x = x * Defaults.LetterWidth,
+                y = y * Defaults.LetterHeight,
+                w = Defaults.LetterWidth,
+                h = Defaults.LetterHeight
             };
 
         public SDL.SDL_Rect GetClip(char c) => Clips[c];

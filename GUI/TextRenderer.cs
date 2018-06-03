@@ -29,7 +29,7 @@
             {
                 var character = text[j];
                 letters_.Render(
-                    targetArea.x + j * letterClips_.LetterWidth,
+                    targetArea.x + j * Defaults.LetterWidth,
                     targetArea.y,
                     letterClips_.GetClip(character));
             }
@@ -37,14 +37,13 @@
 
         public void Render(string text, SDL_Rect targetArea, SDL_Color color)
         {
-            //TODO escape sequences and other stuff
             letters_.SetColor(color);
             Render(text, targetArea);
         }
 
         public void RenderCropped(string text, SDL_Rect area)
         {
-            Render(cropper_.Crop(text, area.w, letterClips_.LetterWidth), area);
+            Render(cropper_.Crop(text, area.w, Defaults.LetterHeight), area);
         }
     }
 }

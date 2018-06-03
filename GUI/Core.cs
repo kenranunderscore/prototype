@@ -6,14 +6,14 @@
     internal class Core
     {
         private readonly ISdlInitializer initializer_;
-        private readonly Screen screen_;
+        private readonly Options options_;
         private IntPtr window_;
         private IntPtr renderer_;
 
-        public Core(ISdlInitializer initializer, Screen screen)
+        public Core(ISdlInitializer initializer, Options options)
         {
             initializer_ = initializer;
-            screen_ = screen;
+            options_ = options;
         }
 
         public SdlResult Initialize()
@@ -28,8 +28,8 @@
                 "prototype",
                 SDL_WINDOWPOS_UNDEFINED,
                 SDL_WINDOWPOS_UNDEFINED,
-                screen_.Width,
-                screen_.Height,
+                options_.ScreenWidth,
+                options_.ScreenHeight,
                 SDL_WindowFlags.SDL_WINDOW_SHOWN);
             if (window_ == IntPtr.Zero)
             {
@@ -45,7 +45,7 @@
         {
             var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips());
             textRenderer.Initialize(renderer_);
-            var menu = new MainMenu(textRenderer, screen_);
+            var menu = new MainMenu(textRenderer, options_);
 
             while (true)
             {

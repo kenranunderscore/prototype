@@ -14,11 +14,11 @@
         };
         private readonly IReadOnlyList<MenuItem> menuItems_;
 
-        public MainMenu(TextRenderer textRenderer, Screen screen)
+        public MainMenu(TextRenderer textRenderer, Options options)
         {
             var maxMenuItemWidth = menuItemCaptions_.Max(c => c.Length) * 8; //TODO get letter width here
-            var x = screen.Width / 2 - maxMenuItemWidth / 2; //TODO get letter height here and calculate y correctly
-            var y = screen.Height / 2;
+            var x = options.ScreenWidth / 2 - maxMenuItemWidth / 2; //TODO get letter height here and calculate y correctly
+            var y = options.ScreenHeight / 2;
             menuItems_ = menuItemCaptions_.Select((caption, i) => new MenuItem(
                 textRenderer,
                 caption,
