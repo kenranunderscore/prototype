@@ -49,7 +49,7 @@
 
             while (true)
             {
-                if (SDL_PollEvent(out var e) != 0)
+                if (SDL_WaitEvent(out var e) != 0)
                 {
                     if (e.type == SDL_EventType.SDL_QUIT
                         || e.type == SDL_EventType.SDL_KEYDOWN
@@ -61,6 +61,7 @@
 
                 SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0xff);
                 SDL_RenderClear(renderer_);
+                menu.HandleEvent(e);
                 menu.Render();
                 SDL_RenderPresent(renderer_);
             }

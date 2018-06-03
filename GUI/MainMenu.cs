@@ -2,11 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using SDL2;
+    using static SDL2.SDL;
 
     internal class MainMenu
     {
-        private IReadOnlyList<MenuItem> menuItems_;
+        private IList<MenuItem> menuItems_;
+
         private readonly IReadOnlyCollection<string> menuItemCaptions_ = new List<string>
         {
             "Play",
@@ -31,7 +32,7 @@
             menuItems_ = menuItemCaptions_.Select((caption, i) => new MenuItem(
                     textRenderer,
                     caption,
-                    new SDL.SDL_Rect
+                    new SDL_Rect
                     {
                         x = x,
                         y = y + 2 * i * menuItemHeight,
@@ -39,6 +40,7 @@
                         h = Defaults.LetterHeight
                     }))
                 .ToList();
+            menuItems_.First().IsActive = true;
         }
 
         public void Render()
@@ -46,6 +48,37 @@
             foreach (var menuItem in menuItems_)
             {
                 menuItem.Render();
+            }
+        }
+
+        public void HandleEvent(SDL_Event e)
+        {
+            foreach (var menuItem in menuItems_)
+            {
+                menuItem.HandleEvent(e);
+            }
+
+            if (e.type == SDL_EventType.SDL_KEYDOWN)
+            {
+                var increment = 0;
+                switch (e.key.keysym.sym)
+                {
+                    case SDL_Keycode.SDLK_UP:
+                        increment = -1;
+                        break;
+                    case SDL_Keycode.SDLK_DOWN:
+                        increment = 1;
+                        break;
+                }
+
+                if (increment != 0)
+                {
+                    var activeItem = menuItems_.Single(x => x.IsActive);
+                    var activeIndex = menuItems_.IndexOf(activeItem);
+                    activeItem.IsActive = false;
+                    var nextIndex = IndexRotator.NextIndex(activeIndex, increment, menuItems_.Count);
+                    menuItems_[nextIndex].IsActive = true;
+                }
             }
         }
     }
