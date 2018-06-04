@@ -38,7 +38,8 @@
                         y = y + 2 * i * menuItemHeight,
                         w = caption.Length * Defaults.LetterWidth,
                         h = Defaults.LetterHeight
-                    }))
+                    },
+                    TargetScene.Unchanged))
                 .ToList();
             menuItems_.First().IsActive = true;
         }
@@ -51,34 +52,58 @@
             }
         }
 
-        public void HandleEvent(SDL_Event e)
+        public TargetScene HandleEvent(SDL_Event e)
         {
-            foreach (var menuItem in menuItems_)
+            if (e.type == SDL_EventType.SDL_MOUSEMOTION)
             {
-                menuItem.HandleEvent(e);
+                HandleMouseMotion(e.motion);
+            }
+
+            if (e.type == SDL_EventType.SDL_MOUSEBUTTONUP)
+            {
+                var targetItem = menuItems_.FirstOrDefault(x => x.Area.Contains(e.button.x, e.button.y));
+                if (targetItem != null)
+                {
+                    return targetItem.TargetScene;
+                }
             }
 
             if (e.type == SDL_EventType.SDL_KEYDOWN)
             {
-                var increment = 0;
-                switch (e.key.keysym.sym)
-                {
-                    case SDL_Keycode.SDLK_UP:
-                        increment = -1;
-                        break;
-                    case SDL_Keycode.SDLK_DOWN:
-                        increment = 1;
-                        break;
-                }
+                HandleKeyDown(e.key);
+            }
 
-                if (increment != 0)
-                {
-                    var activeItem = menuItems_.Single(x => x.IsActive);
-                    var activeIndex = menuItems_.IndexOf(activeItem);
-                    activeItem.IsActive = false;
-                    var nextIndex = IndexRotator.NextIndex(activeIndex, increment, menuItems_.Count);
-                    menuItems_[nextIndex].IsActive = true;
-                }
+            return TargetScene.Unchanged;
+        }
+
+        private void HandleKeyDown(SDL_KeyboardEvent e)
+        {
+            var increment = 0;
+            switch (e.keysym.sym)
+            {
+                case SDL_Keycode.SDLK_UP:
+                    increment = -1;
+                    break;
+                case SDL_Keycode.SDLK_DOWN:
+                    increment = 1;
+                    break;
+            }
+
+            if (increment != 0)
+            {
+                var activeItem = menuItems_.Single(x => x.IsActive);
+                var activeIndex = menuItems_.IndexOf(activeItem);
+                activeItem.IsActive = false;
+                var nextIndex = IndexRotator.NextIndex(activeIndex, increment, menuItems_.Count);
+                menuItems_[nextIndex].IsActive = true;
+            }
+        }
+
+        private void HandleMouseMotion(SDL_MouseMotionEvent e)
+        {
+            foreach (var menuItem in menuItems_)
+            {
+                menuItem.HandleMouseMotion(e);
             }
         }
     }
