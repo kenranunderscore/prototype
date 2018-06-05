@@ -4,6 +4,8 @@
     {
         Unchanged,
         Game,
-        MainMenu
+        MainMenu,
+        Options,
+        Quit
     }
 }

@@ -8,13 +8,6 @@
     {
         private IList<MenuItem> menuItems_;
 
-        private readonly IReadOnlyCollection<string> menuItemCaptions_ = new List<string>
-        {
-            "Play",
-            "Options",
-            "Quit"
-        };
-
         public MainMenu(TextRenderer textRenderer, Options options)
         {
             CreateMenuItems(textRenderer, options);
@@ -23,24 +16,30 @@
         private void CreateMenuItems(TextRenderer textRenderer, Options options)
         {
             //TODO refactor
-            var maxMenuItemWidth = menuItemCaptions_.Max(c => c.Length) * Defaults.LetterWidth;
-            var x = options.ScreenWidth / 2 - maxMenuItemWidth / Defaults.LetterWidth;
+            var maxMenuItemLength = 7;
+            var totalMenuHeight = 5 * Defaults.LetterHeight;
+            var x = options.ScreenWidth / 2 - maxMenuItemLength * Defaults.LetterWidth;
             var centerY = options.ScreenHeight / 2;
-            var menuItemHeight = Defaults.LetterHeight;
-            var totalMenuHeight = (2 * menuItemCaptions_.Count - 1) * menuItemHeight;
             var y = centerY - totalMenuHeight / 2;
-            menuItems_ = menuItemCaptions_.Select((caption, i) => new MenuItem(
+
+            menuItems_ = new List<MenuItem>
+            {
+                new MenuItem(
                     textRenderer,
-                    caption,
-                    new SDL_Rect
-                    {
-                        x = x,
-                        y = y + 2 * i * menuItemHeight,
-                        w = caption.Length * Defaults.LetterWidth,
-                        h = Defaults.LetterHeight
-                    },
-                    TargetScene.Unchanged))
-                .ToList();
+                    "Play",
+                    new SDL_Rect { x = x, y = y, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    TargetScene.Game),
+                new MenuItem(
+                    textRenderer,
+                    "Options",
+                    new SDL_Rect { x = x, y = y + 2 * Defaults.LetterHeight, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    TargetScene.Options),
+                new MenuItem(
+                    textRenderer,
+                    "Quit",
+                    new SDL_Rect { x = x, y = y + 4 * Defaults.LetterHeight, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    TargetScene.Quit),
+            };
             menuItems_.First().IsActive = true;
         }
 

@@ -61,7 +61,12 @@
 
                 SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0xff);
                 SDL_RenderClear(renderer_);
-                menu.HandleEvent(e);
+                var targetScene = menu.HandleEvent(e);
+                if (targetScene == TargetScene.Quit)
+                {
+                    break;
+                }
+
                 menu.Render();
                 SDL_RenderPresent(renderer_);
             }

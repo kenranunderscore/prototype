@@ -7,7 +7,7 @@
         private static readonly SDL_Color NormalColor = new SDL_Color { r = 0xff, g = 0xff, b = 0xff };
         private static readonly SDL_Color MouseOverColor = new SDL_Color { r = 0xff, g = 0xff };
         private readonly TextRenderer textRenderer_;
-        private readonly string caption_;
+        public string Caption { get; }
         private bool isMouseOver_;
         public SDL_Rect Area { get; }
         public bool IsActive { get; set; }
@@ -17,14 +17,14 @@
         public MenuItem(TextRenderer textRenderer, string caption, SDL_Rect area, TargetScene targetScene)
         {
             textRenderer_ = textRenderer;
-            caption_ = caption;
+            Caption = caption;
             Area = area;
             TargetScene = targetScene;
         }
 
         public void Render()
         {
-            textRenderer_.Render(caption_, Area, Color);
+            textRenderer_.Render(Caption, Area, Color);
         }
 
         public void HandleMouseMotion(SDL_MouseMotionEvent e)
