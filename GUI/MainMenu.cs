@@ -32,7 +32,7 @@
                 new MenuItem(
                     textRenderer,
                     "Options",
-                    new SDL_Rect { x = x, y = y + 2 * Defaults.LetterHeight, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    new SDL_Rect { x = x, y = y + 2 * Defaults.LetterHeight, w = 7 * Defaults.LetterWidth, h = Defaults.LetterHeight },
                     TargetScene.Options),
                 new MenuItem(
                     textRenderer,

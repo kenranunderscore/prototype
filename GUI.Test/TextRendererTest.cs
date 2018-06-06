@@ -13,7 +13,7 @@
         {
             var textureMock = new Mock<ITexture>();
             var mockedTextureLoader = Mock.Of<ITextureLoader>(
-                _ => _.LoadTexture(It.IsAny<string>(), It.IsAny<IntPtr>()) == textureMock.Object);
+                _ => _.LoadTexture(It.IsAny<string>(), It.IsAny<IntPtr>(), It.IsAny<SDL.SDL_Color?>()) == textureMock.Object);
             var textRenderer = new TextRenderer(mockedTextureLoader, new TextCropper(), new LetterClips());
             textRenderer.Initialize(IntPtr.Zero);
             textRenderer.Render("Foo", new SDL.SDL_Rect { x = 1, y = 2, w = 3, h = 4 });

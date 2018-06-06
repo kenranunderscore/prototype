@@ -7,7 +7,7 @@
     public class CoreTest
     {
         [Test]
-        public void Initialization_throws_when_any_component_could_not_be_initialized()
+        public void Initialization_is_not_successful_when_any_component_could_not_be_initialized()
         {
             var initializerMock = new Mock<ISdlInitializer>();
             initializerMock.Setup(_ => _.Initialize()).Returns(SdlResult.Invalid("foo"));
