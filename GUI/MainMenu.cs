@@ -18,7 +18,7 @@
             //TODO refactor
             var maxMenuItemLength = 7;
             var totalMenuHeight = 5 * Defaults.LetterHeight;
-            var x = options.ScreenWidth / 2 - maxMenuItemLength * Defaults.LetterWidth;
+            var x = options.ScreenWidth / 2 - maxMenuItemLength * Defaults.LetterWidth / 2;
             var centerY = options.ScreenHeight / 2;
             var y = centerY - totalMenuHeight / 2;
 
@@ -27,7 +27,7 @@
                 new MenuItem(
                     textRenderer,
                     "Play",
-                    new SDL_Rect { x = x, y = y, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    new SDL_Rect { x = x + (int)(1.5 * Defaults.LetterWidth), y = y, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
                     TargetScene.Game),
                 new MenuItem(
                     textRenderer,
@@ -37,7 +37,7 @@
                 new MenuItem(
                     textRenderer,
                     "Quit",
-                    new SDL_Rect { x = x, y = y + 4 * Defaults.LetterHeight, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    new SDL_Rect { x = x + (int)(1.5 * Defaults.LetterWidth), y = y + 4 * Defaults.LetterHeight, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
                     TargetScene.Quit),
             };
             menuItems_.First().IsActive = true;
