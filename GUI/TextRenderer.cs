@@ -19,7 +19,10 @@
 
         public void Initialize(IntPtr renderer)
         {
-            letters_ = textureLoader_.LoadTexture("Resources/letters.png", renderer);
+            letters_ = textureLoader_.LoadTexture(
+                "Resources/letters.png",
+                renderer,
+                new SDL_Color { r = 0xff, g = 0, b = 0xdc });
         }
 
         public void Render(string text, SDL_Rect targetArea)
@@ -37,7 +40,7 @@
 
         public void Render(string text, SDL_Rect targetArea, SDL_Color color)
         {
-            letters_.SetColor(color);
+            letters_.ColorMod = color;
             Render(text, targetArea);
         }
 
