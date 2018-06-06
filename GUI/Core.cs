@@ -6,14 +6,16 @@
     internal class Core
     {
         private readonly ISdlInitializer initializer_;
+        private readonly TextRenderer textRenderer_;
         private readonly Options options_;
         private IntPtr window_;
         private IntPtr renderer_;
         private IScene activeScene_;
 
-        public Core(ISdlInitializer initializer, Options options)
+        public Core(ISdlInitializer initializer, TextRenderer textRenderer, Options options)
         {
             initializer_ = initializer;
+            textRenderer_ = textRenderer;
             options_ = options;
         }
 
@@ -44,9 +46,8 @@
 
         public void Run()
         {
-            var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips());
-            textRenderer.Initialize(renderer_);
-            activeScene_ = new MainMenu(textRenderer, options_);
+            textRenderer_.Initialize(renderer_);
+            activeScene_ = new MainMenu(textRenderer_, options_);
 
             while (true)
             {

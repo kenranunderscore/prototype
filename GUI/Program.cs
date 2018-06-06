@@ -6,7 +6,10 @@
     {
         public static void Main(string[] args)
         {
-            var core = new Core(new SdlInitializer(), new Options(1280, 720));
+            var core = new Core(
+                new SdlInitializer(),
+                new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips()),
+                new Options(1280, 720));
             var initializationResult = core.Initialize();
             if (!initializationResult.Success)
             {
