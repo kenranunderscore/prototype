@@ -4,7 +4,7 @@
     using System.Linq;
     using static SDL2.SDL;
 
-    internal class MainMenu
+    internal class MainMenu : IScene
     {
         private IList<MenuItem> menuItems_;
 

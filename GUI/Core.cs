@@ -9,6 +9,7 @@
         private readonly Options options_;
         private IntPtr window_;
         private IntPtr renderer_;
+        private IScene activeScene_;
 
         public Core(ISdlInitializer initializer, Options options)
         {
@@ -45,7 +46,7 @@
         {
             var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips());
             textRenderer.Initialize(renderer_);
-            var menu = new MainMenu(textRenderer, options_);
+            activeScene_ = new MainMenu(textRenderer, options_);
 
             while (true)
             {
@@ -61,13 +62,13 @@
 
                 SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0xff);
                 SDL_RenderClear(renderer_);
-                var targetScene = menu.HandleEvent(e);
+                var targetScene = activeScene_.HandleEvent(e);
                 if (targetScene == TargetScene.Quit)
                 {
                     break;
                 }
 
-                menu.Render();
+                activeScene_.Render();
                 SDL_RenderPresent(renderer_);
             }
         }
