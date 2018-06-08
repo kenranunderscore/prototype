@@ -48,6 +48,7 @@
         {
             textRenderer_.Initialize(renderer_);
             activeScene_ = new MainMenu(textRenderer_, options_);
+            var gameScene = new GameScene(textRenderer_);
 
             while (true)
             {
@@ -67,6 +68,10 @@
                 if (targetScene == TargetScene.Quit)
                 {
                     break;
+                }
+                else if (targetScene == TargetScene.Game)
+                {
+                    activeScene_ = gameScene;
                 }
 
                 activeScene_.Render();
