@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>prototype.Game.Test</RootNamespace>
+    <AssemblyName>prototype.Game.Test</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
