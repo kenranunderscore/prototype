@@ -12,6 +12,7 @@
         private IntPtr window_;
         private IntPtr renderer_;
         private IScene activeScene_;
+        private IScene gameScene_;
 
         public Core(ISdlInitializer initializer, TextRenderer textRenderer, Options options)
         {
@@ -49,15 +50,13 @@
         {
             textRenderer_.Initialize(renderer_);
             activeScene_ = new MainMenu(textRenderer_, options_);
-            var gameScene = new GameScene(new Prototype("Some short text: Foo!"),  textRenderer_);
+            gameScene_ = new GameScene(new Prototype("Some short text: Foo!"),  textRenderer_, options_);
 
             while (true)
             {
                 if (SDL_WaitEvent(out var e) != 0)
                 {
-                    if (e.type == SDL_EventType.SDL_QUIT
-                        || e.type == SDL_EventType.SDL_KEYDOWN
-                        && e.key.keysym.sym == SDL_Keycode.SDLK_ESCAPE)
+                    if (e.type == SDL_EventType.SDL_QUIT)
                     {
                         break;
                     }
@@ -65,19 +64,32 @@
 
                 SDL_SetRenderDrawColor(renderer_, 0, 0, 0, 0xff);
                 SDL_RenderClear(renderer_);
-                var targetScene = activeScene_.HandleEvent(e);
-                if (targetScene == TargetScene.Quit)
+                var targetSceneType = activeScene_.HandleEvent(e);
+                if (!AdjustTargetScene(targetSceneType))
                 {
                     break;
-                }
-                else if (targetScene == TargetScene.Game)
-                {
-                    activeScene_ = gameScene;
                 }
 
                 activeScene_.Render();
                 SDL_RenderPresent(renderer_);
             }
+        }
+
+        private bool AdjustTargetScene(TargetSceneType targetSceneType)
+        {
+            switch (targetSceneType)
+            {
+                case TargetSceneType.Quit:
+                    return false;
+                case TargetSceneType.MainMenu:
+                    activeScene_ = new MainMenu(textRenderer_, options_);
+                    break;
+                case TargetSceneType.Game:
+                    activeScene_ = gameScene_;
+                    break;
+            }
+
+            return true;
         }
 
         public void Cleanup()

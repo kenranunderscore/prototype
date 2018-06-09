@@ -11,10 +11,10 @@
         private bool isMouseOver_;
         public SDL_Rect Area { get; }
         public bool IsActive { get; set; }
-        public TargetScene TargetScene { get; }
+        public TargetSceneType TargetScene { get; }
         private SDL_Color Color => IsActive || isMouseOver_ ? MouseOverColor : NormalColor;
 
-        public MenuItem(TextRenderer textRenderer, string caption, SDL_Rect area, TargetScene targetScene)
+        public MenuItem(TextRenderer textRenderer, string caption, SDL_Rect area, TargetSceneType targetScene)
         {
             textRenderer_ = textRenderer;
             Caption = caption;

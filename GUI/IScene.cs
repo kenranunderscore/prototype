@@ -5,6 +5,6 @@
     internal interface IScene
     {
         void Render();
-        TargetScene HandleEvent(SDL.SDL_Event e);
+        TargetSceneType HandleEvent(SDL.SDL_Event e);
     }
 }

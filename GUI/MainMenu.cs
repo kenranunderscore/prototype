@@ -28,17 +28,17 @@
                     textRenderer,
                     "Play",
                     new SDL_Rect { x = x + (int)(1.5 * Defaults.LetterWidth), y = y, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
-                    TargetScene.Game),
+                    TargetSceneType.Game),
                 new MenuItem(
                     textRenderer,
                     "Options",
                     new SDL_Rect { x = x, y = y + 2 * Defaults.LetterHeight, w = 7 * Defaults.LetterWidth, h = Defaults.LetterHeight },
-                    TargetScene.Options),
+                    TargetSceneType.Options),
                 new MenuItem(
                     textRenderer,
                     "Quit",
                     new SDL_Rect { x = x + (int)(1.5 * Defaults.LetterWidth), y = y + 4 * Defaults.LetterHeight, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
-                    TargetScene.Quit),
+                    TargetSceneType.Quit),
             };
             menuItems_.First().IsActive = true;
         }
@@ -51,7 +51,7 @@
             }
         }
 
-        public TargetScene HandleEvent(SDL_Event e)
+        public TargetSceneType HandleEvent(SDL_Event e)
         {
             if (e.type == SDL_EventType.SDL_MOUSEMOTION)
             {
@@ -69,17 +69,20 @@
 
             if (e.type == SDL_EventType.SDL_KEYDOWN)
             {
-                HandleKeyDown(e.key);
+                return HandleKeyDown(e.key);
             }
 
-            return TargetScene.Unchanged;
+            return TargetSceneType.Unchanged;
         }
 
-        private void HandleKeyDown(SDL_KeyboardEvent e)
+        private TargetSceneType HandleKeyDown(SDL_KeyboardEvent e)
         {
             var increment = 0;
             switch (e.keysym.sym)
             {
+                case SDL_Keycode.SDLK_KP_ENTER:
+                case SDL_Keycode.SDLK_RETURN:
+                    return ActiveMenuItem.TargetScene;
                 case SDL_Keycode.SDLK_UP:
                     increment = -1;
                     break;
@@ -90,12 +93,21 @@
 
             if (increment != 0)
             {
-                var activeItem = menuItems_.Single(x => x.IsActive);
-                var activeIndex = menuItems_.IndexOf(activeItem);
-                activeItem.IsActive = false;
-                var nextIndex = IndexRotator.NextIndex(activeIndex, increment, menuItems_.Count);
-                menuItems_[nextIndex].IsActive = true;
+                ActivateNextMenuItem(increment);
             }
+
+            return TargetSceneType.Unchanged;
+        }
+
+        private MenuItem ActiveMenuItem => menuItems_.Single(x => x.IsActive);
+
+        private void ActivateNextMenuItem(int increment)
+        {
+            var activeItem = ActiveMenuItem;
+            var activeIndex = menuItems_.IndexOf(activeItem);
+            activeItem.IsActive = false;
+            var nextIndex = IndexRotator.NextIndex(activeIndex, increment, menuItems_.Count);
+            menuItems_[nextIndex].IsActive = true;
         }
 
         private void HandleMouseMotion(SDL_MouseMotionEvent e)

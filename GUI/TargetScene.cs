@@ -1,6 +1,6 @@
 ﻿namespace prototype.GUI
 {
-    internal enum TargetScene
+    internal enum TargetSceneType
     {
         Unchanged,
         Game,
