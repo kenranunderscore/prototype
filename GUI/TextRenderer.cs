@@ -8,13 +8,19 @@
         private readonly ITextureLoader textureLoader_;
         private readonly TextCropper cropper_;
         private readonly ILetterClips letterClips_;
+        private readonly Options options_;
         private ITexture letters_;
 
-        public TextRenderer(ITextureLoader textureLoader, TextCropper cropper, ILetterClips letterClips)
+        public TextRenderer(
+            ITextureLoader textureLoader,
+            TextCropper cropper,
+            ILetterClips letterClips,
+            Options options)
         {
             textureLoader_ = textureLoader;
             cropper_ = cropper;
             letterClips_ = letterClips;
+            options_ = options;
         }
 
         public void Initialize(IntPtr renderer)
@@ -32,9 +38,10 @@
             {
                 var character = text[j];
                 letters_.Render(
-                    targetArea.x + j * Defaults.LetterWidth,
+                    targetArea.x + j * options_.ScaledLetterWidth,
                     targetArea.y,
-                    letterClips_.GetClip(character));
+                    letterClips_.GetClip(character),
+                    options_.Scale);
             }
         }
 
@@ -46,7 +53,7 @@
 
         public void RenderCropped(string text, SDL_Rect area)
         {
-            Render(cropper_.Crop(text, area.w, Defaults.LetterHeight), area);
+            Render(cropper_.Crop(text, area.w, options_.ScaledLetterHeight), area);
         }
     }
 }

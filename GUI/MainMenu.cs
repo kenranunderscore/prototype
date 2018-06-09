@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Runtime;
     using static SDL2.SDL;
 
     internal class MainMenu : IScene
@@ -17,27 +18,28 @@
         {
             //TODO refactor
             var maxMenuItemLength = 7;
-            var totalMenuHeight = 5 * Defaults.LetterHeight;
-            var x = options.ScreenWidth / 2 - maxMenuItemLength * Defaults.LetterWidth / 2;
+            var totalMenuHeight = 5 * options.ScaledLetterHeight;
+            var x = options.ScreenWidth / 2 - maxMenuItemLength * options.ScaledLetterWidth / 2;
             var centerY = options.ScreenHeight / 2;
             var y = centerY - totalMenuHeight / 2;
 
+            //TODO calculate areas (to react to scale changes) instead of setting only once
             menuItems_ = new List<MenuItem>
             {
                 new MenuItem(
                     textRenderer,
                     "Play",
-                    new SDL_Rect { x = x + (int)(1.5 * Defaults.LetterWidth), y = y, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    new SDL_Rect { x = x + (int)(1.5 * options.ScaledLetterWidth), y = y, w = 4 * options.ScaledLetterWidth, h = options.ScaledLetterHeight },
                     TargetSceneType.Game),
                 new MenuItem(
                     textRenderer,
                     "Options",
-                    new SDL_Rect { x = x, y = y + 2 * Defaults.LetterHeight, w = 7 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    new SDL_Rect { x = x, y = y + 2 * options.ScaledLetterHeight, w = 7 * options.ScaledLetterWidth, h = options.ScaledLetterHeight },
                     TargetSceneType.Options),
                 new MenuItem(
                     textRenderer,
                     "Quit",
-                    new SDL_Rect { x = x + (int)(1.5 * Defaults.LetterWidth), y = y + 4 * Defaults.LetterHeight, w = 4 * Defaults.LetterWidth, h = Defaults.LetterHeight },
+                    new SDL_Rect { x = x + (int)(1.5 * options.ScaledLetterWidth), y = y + 4 * options.ScaledLetterHeight, w = 4 * options.ScaledLetterWidth, h = options.ScaledLetterHeight },
                     TargetSceneType.Quit),
             };
             menuItems_.First().IsActive = true;

@@ -21,7 +21,7 @@
 
         public void Render()
         {
-            var targetArea = CalculateRenderArea(options_.ScreenWidth, options_.ScreenHeight);
+            var targetArea = CalculateRenderArea(options_);
             textRenderer_.Render(prototype_.Text, targetArea, currentColor_);
         }
 
@@ -43,12 +43,12 @@
 
         //TODO get Defaults.LetterHeight out of here.
         // perhaps give text renderer an option to render vertically centered within an area
-        private static SDL_Rect CalculateRenderArea(int width, int height) =>
+        private static SDL_Rect CalculateRenderArea(Options options) =>
             new SDL_Rect
             {
-                x = (int)(0.3 * width),
-                y = (int)(0.5 * height - 0.5 * Defaults.LetterHeight),
-                w = (int)(0.5 * width)
+                x = (int)(0.3 * options.ScreenWidth),
+                y = (int)(0.5 * options.ScreenHeight - 0.5 * options.ScaledLetterHeight),
+                w = (int)(0.5 * options.ScreenWidth)
             };
     }
 }
