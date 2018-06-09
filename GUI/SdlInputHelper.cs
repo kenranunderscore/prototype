@@ -8,7 +8,7 @@
         {
             unsafe
             {
-                var text = MarshalHelper.GetUtf8String(textInputEvent.text);
+                var text = Utf8Helper.GetUtf8String(textInputEvent.text);
                 return text[0]; // assume only small characters are actually used
             }
         }
