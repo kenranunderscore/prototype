@@ -12,13 +12,14 @@
         private IntPtr window_;
         private IntPtr renderer_;
         private IScene activeScene_;
-        private IScene gameScene_;
+        private readonly IScene gameScene_;
 
-        public Core(ISdlInitializer initializer, TextRenderer textRenderer, Options options)
+        public Core(ISdlInitializer initializer, TextRenderer textRenderer, Options options, IScene gameScene)
         {
             initializer_ = initializer;
             textRenderer_ = textRenderer;
             options_ = options;
+            gameScene_ = gameScene;
         }
 
         public SdlResult Initialize()
@@ -51,10 +52,6 @@
         {
             textRenderer_.Initialize(renderer_);
             activeScene_ = new MainMenu(textRenderer_, options_);
-            gameScene_ = new GameScene(
-                new Prototype("Some short text: Foo!", new TextAnalyzer(), new MetricCalculator()),
-                textRenderer_,
-                options_);
 
             while (true)
             {
