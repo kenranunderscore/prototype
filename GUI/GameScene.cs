@@ -29,11 +29,17 @@
                 return TargetSceneType.MainMenu;
             }
 
-            return TargetSceneType.Game;
+            if (e.type == SDL_EventType.SDL_TEXTINPUT)
+            {
+                var character = SdlInputHelper.GetPressedCharacter(e.text);
+                prototype_.Type(character);
+            }
+
+            return TargetSceneType.Unchanged;
         }
 
         //TODO get Defaults.LetterHeight out of here.
-        //perhaps give text renderer an option to render vertically centered within an area
+        // perhaps give text renderer an option to render vertically centered within an area
         private static SDL_Rect CalculateRenderArea(int width, int height) =>
             new SDL_Rect
             {

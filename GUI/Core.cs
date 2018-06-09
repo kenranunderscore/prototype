@@ -42,6 +42,7 @@
             }
 
             renderer_ = SDL_CreateRenderer(window_, 0, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+            SDL_StartTextInput();
 
             return SdlResult.Valid;
         }
