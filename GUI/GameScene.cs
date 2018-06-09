@@ -36,12 +36,16 @@
             {
                 var character = SdlInputHelper.GetPressedCharacter(e.text);
                 currentColor_ = prototype_.Type(character) ? DefaultColor : ErrorColor;
+                if (prototype_.Text.Length == 0)
+                {
+                    return TargetSceneType.MainMenu;
+                }
             }
 
             return TargetSceneType.Unchanged;
         }
 
-        //TODO get Defaults.LetterHeight out of here.
+        //TODO get letter height out of here.
         // perhaps give text renderer an option to render vertically centered within an area
         private static SDL_Rect CalculateRenderArea(Options options) =>
             new SDL_Rect
