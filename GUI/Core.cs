@@ -1,6 +1,7 @@
 ﻿namespace prototype.GUI
 {
     using System;
+    using Game;
     using static SDL2.SDL;
 
     internal class Core
@@ -48,7 +49,7 @@
         {
             textRenderer_.Initialize(renderer_);
             activeScene_ = new MainMenu(textRenderer_, options_);
-            var gameScene = new GameScene(textRenderer_);
+            var gameScene = new GameScene(new Prototype("Some short text: Foo!"),  textRenderer_);
 
             while (true)
             {
