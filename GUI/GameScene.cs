@@ -8,6 +8,9 @@
         private readonly TextRenderer textRenderer_;
         private readonly Prototype prototype_;
         private readonly Options options_;
+        private static readonly SDL_Color ErrorColor = new SDL_Color { r = 0xff };
+        private static readonly SDL_Color DefaultColor = new SDL_Color { r = 0xff, g = 0xff, b = 0xff };
+        private SDL_Color currentColor_ = DefaultColor;
 
         public GameScene(Prototype prototype, TextRenderer textRenderer, Options options)
         {
@@ -19,7 +22,7 @@
         public void Render()
         {
             var targetArea = CalculateRenderArea(options_.ScreenWidth, options_.ScreenHeight);
-            textRenderer_.Render(prototype_.Text, targetArea);
+            textRenderer_.Render(prototype_.Text, targetArea, currentColor_);
         }
 
         public TargetSceneType HandleEvent(SDL_Event e)
@@ -32,7 +35,7 @@
             if (e.type == SDL_EventType.SDL_TEXTINPUT)
             {
                 var character = SdlInputHelper.GetPressedCharacter(e.text);
-                prototype_.Type(character);
+                currentColor_ = prototype_.Type(character) ? DefaultColor : ErrorColor;
             }
 
             return TargetSceneType.Unchanged;
