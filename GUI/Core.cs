@@ -51,7 +51,10 @@
         {
             textRenderer_.Initialize(renderer_);
             activeScene_ = new MainMenu(textRenderer_, options_);
-            gameScene_ = new GameScene(new Prototype("Some short text: Foo!"),  textRenderer_, options_);
+            gameScene_ = new GameScene(
+                new Prototype("Some short text: Foo!", new TextAnalyzer(), new MetricCalculator()),
+                textRenderer_,
+                options_);
 
             while (true)
             {

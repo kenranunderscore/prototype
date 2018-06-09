@@ -11,10 +11,11 @@
         {
             var initializerMock = new Mock<ISdlInitializer>();
             initializerMock.Setup(_ => _.Initialize()).Returns(SdlResult.Invalid("foo"));
+            var options = new Options(800, 600);
             var core = new Core(
                 initializerMock.Object,
-                new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips()), 
-                new Options(800, 600));
+                new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips(), options), 
+                options);
             Assert.That(core.Initialize().Success, Is.False);
         }
     }

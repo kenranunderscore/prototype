@@ -38,6 +38,7 @@
                 currentColor_ = prototype_.Type(character) ? DefaultColor : ErrorColor;
                 if (prototype_.Text.Length == 0)
                 {
+                    var wpm = prototype_.WordsPerMinute();
                     return TargetSceneType.MainMenu;
                 }
             }

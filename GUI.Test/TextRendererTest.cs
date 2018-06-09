@@ -14,12 +14,12 @@
             var textureMock = new Mock<ITexture>();
             var mockedTextureLoader = Mock.Of<ITextureLoader>(
                 _ => _.LoadTexture(It.IsAny<string>(), It.IsAny<IntPtr>(), It.IsAny<SDL.SDL_Color?>()) == textureMock.Object);
-            var textRenderer = new TextRenderer(mockedTextureLoader, new TextCropper(), new LetterClips());
+            var textRenderer = new TextRenderer(mockedTextureLoader, new TextCropper(), new LetterClips(), new Options(640, 480));
             textRenderer.Initialize(IntPtr.Zero);
             textRenderer.Render("Foo", new SDL.SDL_Rect { x = 1, y = 2, w = 3, h = 4 });
 
             textureMock.Verify(
-                t => t.Render(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<SDL.SDL_Rect>(), 1d),
+                t => t.Render(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<SDL.SDL_Rect>(), It.IsAny<double>()),
                 Times.Exactly(3));
         }
 
@@ -27,7 +27,7 @@
         public void The_correct_clips_are_taken_from_the_resources()
         {
             var letterClipsMock = new Mock<ILetterClips>();
-            var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), letterClipsMock.Object);
+            var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), letterClipsMock.Object, new Options(640, 480));
             textRenderer.Initialize(IntPtr.Zero);
             textRenderer.Render("Foo! ", new SDL.SDL_Rect { x = 1, y = 2, w = 3, h = 4 });
 
