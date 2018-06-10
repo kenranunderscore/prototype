@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime;
     using static SDL2.SDL;
 
     internal class MainMenu : IScene

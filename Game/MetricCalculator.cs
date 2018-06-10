@@ -1,4 +1,4 @@
-﻿namespace Game
+﻿namespace prototype.Game
 {
     using System;
 

@@ -1,6 +1,5 @@
 ﻿namespace prototype.Game.Test
 {
-    using global::Game;
     using NUnit.Framework;
 
     [TestFixture]

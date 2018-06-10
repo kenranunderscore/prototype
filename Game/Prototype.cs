@@ -1,6 +1,5 @@
-﻿namespace Game
+﻿namespace prototype.Game
 {
-    using System;
     using System.Diagnostics;
 
     public class Prototype

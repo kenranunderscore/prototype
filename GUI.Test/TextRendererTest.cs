@@ -27,7 +27,9 @@
         public void The_correct_clips_are_taken_from_the_resources()
         {
             var letterClipsMock = new Mock<ILetterClips>();
-            var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), letterClipsMock.Object, new Options(640, 480));
+            var mockedTextureLoader = Mock.Of<ITextureLoader>(m =>
+                m.LoadTexture(It.IsAny<string>(), It.IsAny<IntPtr>(), It.IsAny<SDL.SDL_Color?>()) == Mock.Of<ITexture>());
+            var textRenderer = new TextRenderer(mockedTextureLoader, new TextCropper(), letterClipsMock.Object, new Options(640, 480));
             textRenderer.Initialize(IntPtr.Zero);
             textRenderer.Render("Foo! ", new SDL.SDL_Rect { x = 1, y = 2, w = 3, h = 4 });
 

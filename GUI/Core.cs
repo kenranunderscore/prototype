@@ -1,7 +1,6 @@
 ﻿namespace prototype.GUI
 {
     using System;
-    using Game;
     using static SDL2.SDL;
 
     internal class Core
