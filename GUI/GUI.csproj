@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyAttributes.cs" />
+    <Compile Include="ColorScheme.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Defaults.cs" />
     <Compile Include="Extensions.cs" />

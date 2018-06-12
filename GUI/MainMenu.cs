@@ -6,65 +6,80 @@
 
     internal class MainMenu : IScene
     {
-        private IList<MenuItem> menuItems_;
+        private readonly TextRenderer textRenderer_;
+        private readonly Options options_;
+
+        private readonly IList<MenuItem> menuItems_ = new List<MenuItem>
+        {
+            new MenuItem("Play") { TargetSceneType = TargetSceneType.Game, IsActive = true },
+            new MenuItem("Options") { TargetSceneType = TargetSceneType.Options },
+            new MenuItem("Quit") { TargetSceneType = TargetSceneType.Quit }
+        };
+
+        private MenuItem ActiveMenuItem => menuItems_.Single(x => x.IsActive);
 
         public MainMenu(TextRenderer textRenderer, Options options)
         {
-            CreateMenuItems(textRenderer, options);
+            textRenderer_ = textRenderer;
+            options_ = options;
+            CalculateAreas();
         }
 
-        private void CreateMenuItems(TextRenderer textRenderer, Options options)
+        private void CalculateAreas()
         {
-            //TODO refactor
-            var maxMenuItemLength = 7;
-            var totalMenuHeight = 5 * options.ScaledLetterHeight;
-            var x = options.ScreenWidth / 2 - maxMenuItemLength * options.ScaledLetterWidth / 2;
-            var centerY = options.ScreenHeight / 2;
-            var y = centerY - totalMenuHeight / 2;
-
-            //TODO calculate areas (to react to scale changes) instead of setting only once
-            menuItems_ = new List<MenuItem>
+            var maxMenuItemLength = menuItems_.Max(x => x.Caption.Length);
+            var left = options_.ScreenWidth / 2 - maxMenuItemLength * options_.ScaledLetterWidth / 2;
+            var top = options_.ScreenHeight / 2;
+            for (var i = 0; i < menuItems_.Count; i++)
             {
-                new MenuItem(
-                    textRenderer,
-                    "Play",
-                    new SDL_Rect { x = x + (int)(1.5 * options.ScaledLetterWidth), y = y, w = 4 * options.ScaledLetterWidth, h = options.ScaledLetterHeight },
-                    TargetSceneType.Game),
-                new MenuItem(
-                    textRenderer,
-                    "Options",
-                    new SDL_Rect { x = x, y = y + 2 * options.ScaledLetterHeight, w = 7 * options.ScaledLetterWidth, h = options.ScaledLetterHeight },
-                    TargetSceneType.Options),
-                new MenuItem(
-                    textRenderer,
-                    "Quit",
-                    new SDL_Rect { x = x + (int)(1.5 * options.ScaledLetterWidth), y = y + 4 * options.ScaledLetterHeight, w = 4 * options.ScaledLetterWidth, h = options.ScaledLetterHeight },
-                    TargetSceneType.Quit),
-            };
-            menuItems_.First().IsActive = true;
+                var caption = menuItems_[i].Caption;
+                var length = caption.Length;
+                var offset = (int)((maxMenuItemLength - length) / 2d * options_.ScaledLetterWidth);
+                var area = new SDL_Rect
+                {
+                    x = left + offset,
+                    y = top + 2 * i * options_.ScaledLetterHeight,
+                    w = length * options_.ScaledLetterWidth,
+                    h = options_.ScaledLetterHeight
+                };
+
+                menuItems_[i].Area = area;
+            }
         }
 
         public void Render()
         {
+            SDL_GetMouseState(out var x, out var y);
             foreach (var menuItem in menuItems_)
             {
-                menuItem.Render();
+                var color = MenuItemColor(menuItem, x, y);
+                textRenderer_.Render(menuItem.Caption, menuItem.Area, color);
             }
+        }
+
+        private static SDL_Color MenuItemColor(MenuItem menuItem, int x, int y)
+        {
+            if (menuItem.Area.Contains(x, y))
+            {
+                return ColorScheme.ActiveItem;
+            }
+
+            if (menuItem.IsActive)
+            {
+                return ColorScheme.MouseOverItem;
+            }
+
+            return ColorScheme.Default;
         }
 
         public TargetSceneType HandleEvent(SDL_Event e)
         {
-            if (e.type == SDL_EventType.SDL_MOUSEMOTION)
-            {
-                HandleMouseMotion(e.motion);
-            }
-
             if (e.type == SDL_EventType.SDL_MOUSEBUTTONUP)
             {
-                var targetItem = menuItems_.FirstOrDefault(x => x.Area.Contains(e.button.x, e.button.y));
-                if (targetItem != null)
+                var target = menuItems_.SingleOrDefault(m => m.Area.Contains(e.button.x, e.button.y));
+                if (target != null)
                 {
-                    return targetItem.TargetScene;
+                    return target.TargetSceneType;
                 }
             }
 
@@ -83,7 +98,7 @@
             {
                 case SDL_Keycode.SDLK_KP_ENTER:
                 case SDL_Keycode.SDLK_RETURN:
-                    return ActiveMenuItem.TargetScene;
+                    return ActiveMenuItem.TargetSceneType;
                 case SDL_Keycode.SDLK_UP:
                     increment = -1;
                     break;
@@ -100,8 +115,6 @@
             return TargetSceneType.Unchanged;
         }
 
-        private MenuItem ActiveMenuItem => menuItems_.Single(x => x.IsActive);
-
         private void ActivateNextMenuItem(int increment)
         {
             var activeItem = ActiveMenuItem;
@@ -109,14 +122,6 @@
             activeItem.IsActive = false;
             var nextIndex = IndexRotator.NextIndex(activeIndex, increment, menuItems_.Count);
             menuItems_[nextIndex].IsActive = true;
-        }
-
-        private void HandleMouseMotion(SDL_MouseMotionEvent e)
-        {
-            foreach (var menuItem in menuItems_)
-            {
-                menuItem.HandleMouseMotion(e);
-            }
         }
     }
 }

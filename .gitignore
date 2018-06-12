@@ -5,6 +5,7 @@
 
 # Code coverage results
 *cover*.xml
+.axoCover/
 
 # User-specific files
 *.suo
