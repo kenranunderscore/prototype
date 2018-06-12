@@ -59,8 +59,10 @@
     <Compile Include="ITexture.cs" />
     <Compile Include="ITextureLoader.cs" />
     <Compile Include="LetterClips.cs" />
-    <Compile Include="MainMenu.cs" />
-    <Compile Include="MenuItem.cs" />
+    <Compile Include="Menus\MainMenu.cs" />
+    <Compile Include="Menus\Menu.cs" />
+    <Compile Include="Menus\MenuItem.cs" />
+    <Compile Include="Menus\OptionsMenu.cs" />
     <Compile Include="Options.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

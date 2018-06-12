@@ -1,6 +1,7 @@
 ﻿namespace prototype.GUI
 {
     using System;
+    using prototype.GUI.Menus;
     using static SDL2.SDL;
 
     internal class Core
@@ -83,6 +84,9 @@
                     return false;
                 case TargetSceneType.MainMenu:
                     activeScene_ = new MainMenu(textRenderer_, options_);
+                    break;
+                case TargetSceneType.Options:
+                    activeScene_ = new OptionsMenu(textRenderer_, options_);
                     break;
                 case TargetSceneType.Game:
                     activeScene_ = gameScene_;

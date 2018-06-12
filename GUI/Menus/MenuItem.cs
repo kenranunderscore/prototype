@@ -1,4 +1,4 @@
-﻿namespace prototype.GUI
+﻿namespace prototype.GUI.Menus
 {
     using SDL2;
 
