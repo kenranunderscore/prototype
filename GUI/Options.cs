@@ -4,7 +4,7 @@
     {
         public int ScreenWidth { get; }
         public int ScreenHeight { get; }
-        public double Scale { get; set; } = 1.8d;
+        public double Scale { get; set; } = 2d;
         public int ScaledLetterWidth => (int)(Scale * Defaults.LetterWidth);
         public int ScaledLetterHeight => (int)(Scale * Defaults.LetterHeight);
 

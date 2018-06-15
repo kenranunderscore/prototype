@@ -109,6 +109,8 @@
             ['Ö'] = ClipFromIndices(19, 4),
             ['Ü'] = ClipFromIndices(0, 5),
             ['°'] = ClipFromIndices(1, 5),
+            ['↑'] = ClipFromIndices(2, 5),
+            ['↓'] = ClipFromIndices(3, 5),
         };
 
         private static SDL.SDL_Rect ClipFromIndices(int x, int y) =>
