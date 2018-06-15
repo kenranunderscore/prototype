@@ -6,6 +6,7 @@
         Game,
         MainMenu,
         Options,
-        Quit
+        Quit,
+        FileChoice
     }
 }

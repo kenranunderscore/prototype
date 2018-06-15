@@ -91,6 +91,9 @@
                 case TargetSceneType.Game:
                     activeScene_ = gameScene_;
                     break;
+                case TargetSceneType.FileChoice:
+                    activeScene_ = new FileChoiceMenu(textRenderer_, options_);
+                    break;
             }
 
             return true;

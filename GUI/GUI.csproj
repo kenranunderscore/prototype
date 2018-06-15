@@ -59,6 +59,7 @@
     <Compile Include="ITexture.cs" />
     <Compile Include="ITextureLoader.cs" />
     <Compile Include="LetterClips.cs" />
+    <Compile Include="Menus\FileChoiceMenu.cs" />
     <Compile Include="Menus\MainMenu.cs" />
     <Compile Include="Menus\Menu.cs" />
     <Compile Include="Menus\MenuItem.cs" />
@@ -107,6 +108,9 @@
       <Project>{85480198-8711-4355-830e-72fd794ad3f6}</Project>
       <Name>SDL2-CS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TextSources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
