@@ -2,6 +2,7 @@
 {
     using Moq;
     using NUnit.Framework;
+    using prototype.Game;
 
     [TestFixture]
     public class CoreTest
@@ -17,6 +18,7 @@
                 initializerMock.Object,
                 textRenderer,
                 options,
+                new Prototype(new TextAnalyzer(), new MetricCalculator(), new TextProcessor()),
                 Mock.Of<IScene>());
             Assert.That(core.Initialize().Success, Is.False);
         }

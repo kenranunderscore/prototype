@@ -78,6 +78,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Game\Game.csproj">
+      <Project>{E19674AF-6990-4991-B051-1CAEE06714E4}</Project>
+      <Name>Game</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GUI\GUI.csproj">
       <Project>{4c8e6d2c-821c-4c1b-9e5f-a210d10c4d13}</Project>
       <Name>GUI</Name>

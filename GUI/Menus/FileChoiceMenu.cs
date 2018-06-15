@@ -4,19 +4,25 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using prototype.Game;
     using static SDL2.SDL;
 
     internal class FileChoiceMenu : Menu
     {
         private const int NumberOfVisibleMenuItems = 5;
-        private readonly List<MenuItem> allItems_ = new List<MenuItem>();
+        private readonly IList<MenuItem> allItems_;
+        private readonly IDictionary<string, string> filePaths_;
+        private readonly Prototype prototype_;
         private int activeIndex_;
 
-        public FileChoiceMenu(TextRenderer textRenderer, Options options)
+        public FileChoiceMenu(TextRenderer textRenderer, Options options, Prototype prototype)
             : base(textRenderer, options)
         {
-            var files = Directory.EnumerateFiles("TextSources", "*.txt", SearchOption.TopDirectoryOnly);
-            allItems_.AddRange(files.Select(f => new MenuItem(Path.GetFileNameWithoutExtension(f))));
+            prototype_ = prototype;
+            filePaths_ = Directory.EnumerateFiles("TextSources", "*.txt", SearchOption.TopDirectoryOnly)
+                .ToDictionary(Path.GetFileNameWithoutExtension, f => f);
+            allItems_ = new List<MenuItem>(filePaths_.Keys
+                .Select(f => new MenuItem(f) { TargetSceneType = TargetSceneType.Game }));
             activeIndex_ = allItems_.Count / 2;
             allItems_[activeIndex_].IsActive = true;
             AdjustVisibleMenuItems(0);
@@ -29,14 +35,19 @@
                 var target = MenuItems.SingleOrDefault(m => m.Area.Contains(e.button.x, e.button.y));
                 if (target != null)
                 {
-                    //TODO Load file
+                    prototype_.LoadFile(filePaths_[target.Caption]);
                     return target.TargetSceneType;
                 }
             }
 
             if (e.type == SDL_EventType.SDL_KEYDOWN)
             {
-                return HandleKeyDown(e.key);
+                var targetScene = HandleKeyDown(e.key);
+                if (targetScene == TargetSceneType.Game)
+                {
+                    prototype_.LoadFile(filePaths_[ActiveMenuItem.Caption]);
+                    return TargetSceneType.Game;
+                }
             }
 
             return TargetSceneType.Unchanged;

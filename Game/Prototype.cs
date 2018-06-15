@@ -5,18 +5,35 @@
     public class Prototype
     {
         private readonly Stopwatch timer_ = new Stopwatch();
-        private readonly string fullText_;
         private readonly TextAnalyzer textAnalyzer_;
         private readonly MetricCalculator metricCalculator_;
+        private readonly TextProcessor textProcessor_;
+        private string fullText_;
+        private string text_;
 
-        public string Text { get; private set; }
-
-        public Prototype(string text, TextAnalyzer textAnalyzer, MetricCalculator metricCalculator)
+        public string Text
         {
-            fullText_ = text;
-            Text = text;
+            get => text_;
+            set
+            {
+                fullText_ = value;
+                text_ = value;
+            }
+        }
+
+        public Prototype(
+            TextAnalyzer textAnalyzer,
+            MetricCalculator metricCalculator,
+            TextProcessor textProcessor)
+        {
             textAnalyzer_ = textAnalyzer;
             metricCalculator_ = metricCalculator;
+            textProcessor_ = textProcessor;
+        }
+
+        public void LoadFile(string path)
+        {
+            Text = textProcessor_.LoadFile(path);
         }
 
         public bool Type(char key)
@@ -26,13 +43,13 @@
                 timer_.Start();
             }
 
-            if (Text.Length > 0 && Text[0] != key)
+            if (text_.Length > 0 && Text[0] != key)
             {
                 return false;
             }
 
-            Text = Text.Substring(1);
-            if (Text.Length == 0)
+            text_ = text_.Substring(1);
+            if (text_.Length == 0)
             {
                 timer_.Stop();
             }

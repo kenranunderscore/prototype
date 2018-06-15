@@ -1,6 +1,7 @@
 ﻿namespace prototype.GUI
 {
     using System;
+    using prototype.Game;
     using prototype.GUI.Menus;
     using static SDL2.SDL;
 
@@ -9,16 +10,23 @@
         private readonly ISdlInitializer initializer_;
         private readonly TextRenderer textRenderer_;
         private readonly Options options_;
+        private readonly Prototype prototype_;
+        private readonly IScene gameScene_;
         private IntPtr window_;
         private IntPtr renderer_;
         private IScene activeScene_;
-        private readonly IScene gameScene_;
 
-        public Core(ISdlInitializer initializer, TextRenderer textRenderer, Options options, IScene gameScene)
+        public Core(
+            ISdlInitializer initializer,
+            TextRenderer textRenderer,
+            Options options,
+            Prototype prototype,
+            IScene gameScene)
         {
             initializer_ = initializer;
             textRenderer_ = textRenderer;
             options_ = options;
+            prototype_ = prototype;
             gameScene_ = gameScene;
         }
 
@@ -92,7 +100,7 @@
                     activeScene_ = gameScene_;
                     break;
                 case TargetSceneType.FileChoice:
-                    activeScene_ = new FileChoiceMenu(textRenderer_, options_);
+                    activeScene_ = new FileChoiceMenu(textRenderer_, options_, prototype_);
                     break;
             }
 

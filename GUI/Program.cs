@@ -9,12 +9,14 @@
         {
             var options = new Options(1280, 720);
             var textRenderer = new TextRenderer(new TextureLoader(), new TextCropper(), new LetterClips(), options);
+            var prototype = new Prototype(new TextAnalyzer(), new MetricCalculator(), new TextProcessor());
             var core = new Core(
                 new SdlInitializer(),
                 textRenderer,
                 options,
+                prototype,
                 new GameScene(
-                    new Prototype("Some start text, here.", new TextAnalyzer(), new MetricCalculator()),
+                    prototype,
                     textRenderer,
                     options));
             var initializationResult = core.Initialize();
