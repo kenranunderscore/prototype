@@ -3,7 +3,9 @@ from color_scheme import ERROR_COLOR, DEFAULT_COLOR
 from sdl2 import *
 
 class GameScene(object):
-    def __init__(self, text_renderer, options):
+    def __init__(self, prototype, text_renderer, options):
+        self._prototype = prototype
+        self._prototype.text = "Some foo bar text"
         self._text_renderer = text_renderer
         self._options = options
 
@@ -11,15 +13,17 @@ class GameScene(object):
         if event.type == SDL_KEYDOWN and event.key.keysym.sym == SDLK_ESCAPE:
             return SceneType.MAIN_MENU
         if event.type == SDL_TEXTINPUT:
-            char = event.text.text
-            print(char)
-            print(type(char))
-            return SceneType.MAIN_MENU
+            char = event.text.text.decode('utf-8')
+            type_result = self._prototype.type_letter(char)
+            self._color = DEFAULT_COLOR if type_result else ERROR_COLOR
+            if not self._prototype.text:
+                print(self._prototype.wpm())
+                return SceneType.MAIN_MENU
         return SceneType.UNCHANGED
     
     def render(self):
         area = self._calculate_render_area()
-        self._text_renderer.render("Hello guys, this is some foo bar baz", area, ERROR_COLOR)
+        self._text_renderer.render(self._prototype.text, area, ERROR_COLOR)
     
     def _calculate_render_area(self):
         return SDL_Rect(

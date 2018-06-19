@@ -13,7 +13,7 @@ class TextRenderer(object):
             SDL_Color(0xff, 0, 0xdc))
     
     def render(self, text, target_area, color=None):
-        if color is not None:
+        if color:
             self._letters.set_color_mod(color)
         for i, c in enumerate(text):
             self._letters.render(

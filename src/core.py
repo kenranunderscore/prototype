@@ -1,15 +1,17 @@
 import ctypes
 from sdl2 import *
 from sdl2.sdlimage import *
-from menus import MainMenu, OptionsMenu
+from menus import MainMenu, OptionsMenu, FileChoiceMenu
 from scene_type import SceneType
 from game_scene import GameScene
+from prototype import Prototype
 
 class Core(object):
     def __init__(self, options, text_renderer):
         self._options = options
         self._text_renderer = text_renderer
-        self._game_scene = GameScene(self._text_renderer, self._options)
+        self._prototype = Prototype()
+        self._game_scene = GameScene(self._prototype, self._text_renderer, self._options)
 
         if (SDL_Init(SDL_INIT_VIDEO) < 0 or IMG_Init(IMG_INIT_PNG) < 0):
             print('Failed to initialize SDL or any of its parts: ' + SDL_GetError())
@@ -55,6 +57,8 @@ class Core(object):
             self._scene = OptionsMenu(self._text_renderer, self._options)
         elif target_scene == SceneType.GAME:
             self._scene = self._game_scene
+        elif target_scene == SceneType.FILE_CHOICE:
+            self._scene = FileChoiceMenu(self._text_renderer, self._options, self._prototype)
         return True
 
     def cleanup(self):

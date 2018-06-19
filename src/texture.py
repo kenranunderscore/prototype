@@ -26,7 +26,7 @@ class Texture(object):
 
 def loadTexture(path, renderer, color_key=None):
     surface = IMG_Load(path)
-    if color_key is not None:
+    if color_key:
         SDL_SetColorKey(
             surface,
             1,
