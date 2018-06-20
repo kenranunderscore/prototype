@@ -1,10 +1,10 @@
 import ctypes
-from sdl2 import *
-from sdl2.sdlimage import *
+import sdl2
 from menus import MainMenu, OptionsMenu, FileChoiceMenu
 from scene_type import SceneType
 from game_scene import GameScene
 from prototype import Prototype
+
 
 class Core(object):
     def __init__(self, options, text_renderer):
@@ -13,41 +13,42 @@ class Core(object):
         self._prototype = Prototype()
         self._game_scene = GameScene(self._prototype, self._text_renderer, self._options)
 
-        if (SDL_Init(SDL_INIT_VIDEO) < 0 or IMG_Init(IMG_INIT_PNG) < 0):
-            print('Failed to initialize SDL or any of its parts: ' + SDL_GetError())
+        if (sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO) < 0
+                or sdl2.sdlimage.IMG_Init(sdl2.sdlimage.IMG_INIT_PNG) < 0):
+            print('Failed to initialize SDL or any of its parts: ' + sdl2.SDL_GetError())
             exit(-1)
-            
-        self._window = SDL_CreateWindow(
+
+        self._window = sdl2.SDL_CreateWindow(
             b'prototype',
-            SDL_WINDOWPOS_CENTERED,
-            SDL_WINDOWPOS_CENTERED,
+            sdl2.SDL_WINDOWPOS_CENTERED,
+            sdl2.SDL_WINDOWPOS_CENTERED,
             self._options.screen_width,
             self._options.screen_height,
-            SDL_WINDOW_SHOWN)
-        self._renderer = SDL_CreateRenderer(self._window, 0, SDL_RENDERER_ACCELERATED)
-        SDL_StartTextInput()
-    
+            sdl2.SDL_WINDOW_SHOWN)
+        self._renderer = sdl2.SDL_CreateRenderer(self._window, 0, sdl2.SDL_RENDERER_ACCELERATED)
+        sdl2.SDL_StartTextInput()
+
     def run(self):
         self._text_renderer.initialize(self._renderer)
         self._scene = MainMenu(self._text_renderer, self._options)
 
         isRunning = True
-        event = SDL_Event()
+        event = sdl2.SDL_Event()
         while (isRunning):
-            if (SDL_WaitEvent(ctypes.byref(event)) != 0):
-                if (event.type == SDL_QUIT):
+            if (sdl2.SDL_WaitEvent(ctypes.byref(event)) != 0):
+                if (event.type == sdl2.SDL_QUIT):
                     isRunning = False
                     break
 
-            SDL_SetRenderDrawColor(self._renderer, 0, 0, 0, 0xff)
-            SDL_RenderClear(self._renderer)
+            sdl2.SDL_SetRenderDrawColor(self._renderer, 0, 0, 0, 0xff)
+            sdl2.SDL_RenderClear(self._renderer)
             target_scene = self._scene.handle_event(event)
             if not self._adjust_target_scene(target_scene):
                 isRunning = False
                 break
             self._scene.render()
-            SDL_RenderPresent(self._renderer)
-    
+            sdl2.SDL_RenderPresent(self._renderer)
+
     def _adjust_target_scene(self, target_scene):
         if target_scene == SceneType.QUIT:
             return False
@@ -62,6 +63,6 @@ class Core(object):
         return True
 
     def cleanup(self):
-        SDL_DestroyRenderer(self._renderer)
-        SDL_DestroyWindow(self._window)
-        SDL_Quit()
+        sdl2.SDL_DestroyRenderer(self._renderer)
+        sdl2.SDL_DestroyWindow(self._window)
+        sdl2.SDL_Quit()

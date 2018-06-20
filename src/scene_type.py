@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class SceneType(Enum):
     UNCHANGED = 0
     GAME = 1

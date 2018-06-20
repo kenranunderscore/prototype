@@ -1,14 +1,17 @@
 import ctypes
+import os
+import sdl2
 import color_scheme
 import index_rotation
-import os
-from sdl2 import *
 from scene_type import SceneType
+
 
 def contains(self, x, y):
     return x >= self.x and y >= self.y and x <= self.x + self.w and y <= self.y + self.h
 
-SDL_Rect.contains = contains
+
+sdl2.SDL_Rect.contains = contains
+
 
 class MenuItem(object):
     def __init__(self, caption, target_scene=SceneType.UNCHANGED, active=False):
@@ -16,16 +19,17 @@ class MenuItem(object):
         self.active = active
         self.target_scene = target_scene
 
+
 class Menu(object):
     def __init__(self, text_renderer, options):
         self._text_renderer = text_renderer
         self._options = options
         self._menu_items = []
-    
+
     @property
     def _active_menu_item(self):
         return next(x for x in self._menu_items if x.active)
-    
+
     def _menu_item_color(self, item, x, y):
         if item.area.contains(x, y):
             color = color_scheme.ACTIVE_COLOR
@@ -37,19 +41,19 @@ class Menu(object):
 
     def render(self):
         x, y = ctypes.c_int(0), ctypes.c_int(0)
-        SDL_GetMouseState(ctypes.byref(x), ctypes.byref(y))
+        sdl2.SDL_GetMouseState(ctypes.byref(x), ctypes.byref(y))
         for item in self._menu_items:
             color = self._menu_item_color(item, x.value, y.value)
             self._text_renderer.render(item.caption, item.area, color)
-    
+
     def handle_event(self, event):
-        if event.type == SDL_MOUSEBUTTONUP:
+        if event.type == sdl2.SDL_MOUSEBUTTONUP:
             x = event.button.x
             y = event.button.y
             for item in self._menu_items:
                 if item.area.contains(x, y):
                     return item.target_scene
-        if event.type == SDL_KEYDOWN:
+        if event.type == sdl2.SDL_KEYDOWN:
             return self._handle_key_down(event.key)
         return SceneType.UNCHANGED
 
@@ -58,15 +62,15 @@ class Menu(object):
         self._active_menu_item.active = False
         next_index = index_rotation.rotate_index(active_index, increment, len(self._menu_items))
         self._menu_items[next_index].active = True
-    
+
     def _handle_key_down(self, keyboard_event):
         increment = 0
         sym = keyboard_event.keysym.sym
-        if sym == SDLK_KP_ENTER or sym == SDLK_RETURN:
+        if sym == sdl2.SDLK_KP_ENTER or sym == sdl2.SDLK_RETURN:
             return self._active_menu_item.target_scene
-        elif sym == SDLK_UP:
+        elif sym == sdl2.SDLK_UP:
             increment = -1
-        elif sym == SDLK_DOWN:
+        elif sym == sdl2.SDLK_DOWN:
             increment = 1
         if increment != 0:
             self._activate_next_menu_item(increment)
@@ -82,13 +86,14 @@ class Menu(object):
             caption = item.caption
             length = len(caption)
             offset = (max_caption_width - length) * self._options.scaled_letter_width // 2
-            area = SDL_Rect(
+            area = sdl2.SDL_Rect(
                 left + offset,
                 top + 2 * i * self._options.scaled_letter_height,
                 length * self._options.scaled_letter_width,
                 self._options.scaled_letter_height
             )
             item.area = area
+
 
 class MainMenu(Menu):
     def __init__(self, text_renderer, options):
@@ -98,11 +103,13 @@ class MainMenu(Menu):
         self._menu_items.append(MenuItem('Quit', SceneType.QUIT))
         self._calculate_areas()
 
+
 class OptionsMenu(Menu):
     def __init__(self, text_renderer, options):
         super(OptionsMenu, self).__init__(text_renderer, options)
         self._menu_items.append(MenuItem('Back', SceneType.MAIN_MENU, True))
         self._calculate_areas()
+
 
 class FileChoiceMenu(Menu):
     NUMBER_OF_VISIBLE_ITEMS = 3
@@ -117,46 +124,52 @@ class FileChoiceMenu(Menu):
         self._index = len(self._items) // 2
         self._items[self._index].active = True
         self._adjust_visible_items(0)
-    
+
     def handle_event(self, event):
-        if event.type == SDL_MOUSEBUTTONUP:
+        if event.type == sdl2.SDL_MOUSEBUTTONUP:
             x = event.button.x
             y = event.button.y
             for item in self._menu_items:
                 if item.area.contains(x, y):
                     return item.target_scene
-        elif event.type == SDL_KEYDOWN:
+        elif event.type == sdl2.SDL_KEYDOWN:
             target_scene = self._handle_key_down(event.key)
             if target_scene == SceneType.GAME:
                 path = self._paths[self._active_menu_item.caption]
                 self._prototype.load_file(path)
                 return target_scene
         return SceneType.UNCHANGED
-    
+
     def render(self):
         super(FileChoiceMenu, self).render()
         if self._index - self.NUMBER_OF_VISIBLE_ITEMS // 2 > 0:
             self._render_up_arrow()
         if self._index + self.NUMBER_OF_VISIBLE_ITEMS // 2 < len(self._items) - 1:
             self._render_down_arrow()
-    
+
     def _render_up_arrow(self):
         x = self._options.screen_width // 2 - self._options.scaled_letter_width // 2
         y = self._menu_items[0].area.y - 4 * self._options.scaled_letter_height
-        self._text_renderer.render('↑', SDL_Rect(x, y), color_scheme.DEFAULT_COLOR)
-    
+        self._text_renderer.render('↑', sdl2.SDL_Rect(x, y), color_scheme.DEFAULT_COLOR)
+
     def _render_down_arrow(self):
         x = self._options.screen_width // 2 - self._options.scaled_letter_width // 2
-        y = self._menu_items[-1].area.y + 4 * self._options.scaled_letter_height
-        self._text_renderer.render('↓', SDL_Rect(x, y), color_scheme.DEFAULT_COLOR)
+        last_area = self._menu_items[-1].area
+        y = last_area.y + 4 * self._options.scaled_letter_height
+        self._text_renderer.render(
+            '↓',
+            sdl2.SDL_Rect(x, y),
+            color_scheme.DEFAULT_COLOR
+        )
 
     def _adjust_visible_items(self, increment):
         next_abs_index = self._index + increment - self.NUMBER_OF_VISIBLE_ITEMS // 2
         max_index = len(self._items) - self.NUMBER_OF_VISIBLE_ITEMS
         start_index = max(min(next_abs_index, max_index), 0)
-        self._menu_items = self._items[start_index:start_index + self.NUMBER_OF_VISIBLE_ITEMS]
+        end_index = start_index + self.NUMBER_OF_VISIBLE_ITEMS
+        self._menu_items = self._items[start_index:end_index]
         self._calculate_areas()
-    
+
     def _activate_next_menu_item(self, increment):
         self._adjust_visible_items(increment)
         next_relative_index = self._menu_items.index(self._active_menu_item) + increment

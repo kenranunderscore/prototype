@@ -4,6 +4,7 @@ def load_file(path):
         content = f.read()
     return _process_text(content)
 
+
 def _process_text(text):
     # TODO handle empty text
     # TODO refactor -> make code pythonic
