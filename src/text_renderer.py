@@ -8,8 +8,8 @@ class TextRenderer(object):
         self._options = options
 
     def initialize(self, renderer):
-        self._letters = texture.loadTexture(
-            b"Resources/letters.png",
+        self._letters = texture.load_texture(
+            b"resources/letters.png",
             renderer,
             SDL_Color(0xff, 0, 0xdc))
 

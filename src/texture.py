@@ -25,7 +25,7 @@ class Texture(object):
         return int(round(scale * length))
 
 
-def loadTexture(path, renderer, color_key=None):
+def load_texture(path, renderer, color_key=None):
     surface = IMG_Load(path)
     if color_key:
         sdl2.SDL_SetColorKey(
