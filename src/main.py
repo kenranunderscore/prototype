@@ -1,6 +1,6 @@
 from core import Core
 from options import Options
-from text_renderer import TextRenderer
+from textrenderer import TextRenderer
 
 
 def main():

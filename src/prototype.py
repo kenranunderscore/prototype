@@ -1,5 +1,5 @@
-import text_processing
-import text_analysis
+import textprocessing
+import textanalysis
 import metrics
 
 
@@ -14,7 +14,7 @@ class Prototype(object):
         self._text = value
 
     def load_file(self, path):
-        self.text = text_processing.load_file(path)
+        self.text = textprocessing.load_file(path)
 
     def type_letter(self, letter):
         if len(self.text) > 0 and self.text[0] != letter:
@@ -25,6 +25,6 @@ class Prototype(object):
         return True
 
     def wpm(self):
-        word_count = text_analysis.count_words(self._full_text)
+        word_count = textanalysis.count_words(self._full_text)
         wpm = metrics.wpm(word_count, 60000)  # TODO
         return wpm

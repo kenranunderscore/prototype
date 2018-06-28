@@ -1,5 +1,5 @@
 import texture
-import letter_clips
+import letterclips
 from sdl2 import SDL_Color
 
 
@@ -20,5 +20,5 @@ class TextRenderer(object):
             self._letters.render(
                 target_area.x + i * self._options.scaled_letter_width,
                 target_area.y,
-                letter_clips.get_clip(c),
+                letterclips.get_clip(c),
                 self._options.scale)

@@ -1,9 +1,9 @@
 import ctypes
 import os
 import sdl2
-import color_scheme
-import index_rotation
-from scene_type import SceneType
+import colorscheme
+import indexrotation
+from scenetype import SceneType
 
 
 def contains(self, x, y):
@@ -32,11 +32,11 @@ class Menu(object):
 
     def _menu_item_color(self, item, x, y):
         if item.area.contains(x, y):
-            color = color_scheme.ACTIVE_COLOR
+            color = colorscheme.ACTIVE_COLOR
         elif item.active:
-            color = color_scheme.MOUSE_OVER_COLOR
+            color = colorscheme.MOUSE_OVER_COLOR
         else:
-            color = color_scheme.DEFAULT_COLOR
+            color = colorscheme.DEFAULT_COLOR
         return color
 
     def render(self):
@@ -60,7 +60,7 @@ class Menu(object):
     def _activate_next_menu_item(self, increment):
         active_index = self._menu_items.index(self._active_menu_item)
         self._active_menu_item.active = False
-        next_index = index_rotation.rotate_index(active_index, increment, len(self._menu_items))
+        next_index = indexrotation.rotate_index(active_index, increment, len(self._menu_items))
         self._menu_items[next_index].active = True
 
     def _handle_key_down(self, keyboard_event):
@@ -150,7 +150,7 @@ class FileChoiceMenu(Menu):
     def _render_up_arrow(self):
         x = self._options.screen_width // 2 - self._options.scaled_letter_width // 2
         y = self._menu_items[0].area.y - 4 * self._options.scaled_letter_height
-        self._text_renderer.render('↑', sdl2.SDL_Rect(x, y), color_scheme.DEFAULT_COLOR)
+        self._text_renderer.render('↑', sdl2.SDL_Rect(x, y), colorscheme.DEFAULT_COLOR)
 
     def _render_down_arrow(self):
         x = self._options.screen_width // 2 - self._options.scaled_letter_width // 2
@@ -159,7 +159,7 @@ class FileChoiceMenu(Menu):
         self._text_renderer.render(
             '↓',
             sdl2.SDL_Rect(x, y),
-            color_scheme.DEFAULT_COLOR
+            colorscheme.DEFAULT_COLOR
         )
 
     def _adjust_visible_items(self, increment):

@@ -1,8 +1,8 @@
 import ctypes
 import sdl2
 from menus import MainMenu, OptionsMenu, FileChoiceMenu
-from scene_type import SceneType
-from game_scene import GameScene
+from scenetype import SceneType
+from gamescene import GameScene
 from prototype import Prototype
 
 
