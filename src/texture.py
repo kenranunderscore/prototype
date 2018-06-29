@@ -1,5 +1,5 @@
 import sdl2
-from sdl2.sdlimage import IMG_Load
+from sdl2 import sdlimage
 
 
 class Texture(object):
@@ -26,7 +26,7 @@ class Texture(object):
 
 
 def load_texture(path, renderer, color_key=None):
-    surface = IMG_Load(path)
+    surface = sdlimage.IMG_Load(path)
     if color_key:
         sdl2.SDL_SetColorKey(
             surface,
