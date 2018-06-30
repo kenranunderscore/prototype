@@ -1,9 +1,10 @@
 import ctypes
 import sdl2
-from menus import MainMenu, OptionsMenu, FileChoiceMenu
-from scenetype import SceneType
-from gamescene import GameScene
-from prototype import Prototype
+import sys
+from src.menus import MainMenu, OptionsMenu, FileChoiceMenu
+from src.scenetype import SceneType
+from src.gamescene import GameScene
+from src.prototype import Prototype
 
 
 class Core(object):
@@ -15,8 +16,9 @@ class Core(object):
 
         if (sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO) < 0
                 or sdl2.sdlimage.IMG_Init(sdl2.sdlimage.IMG_INIT_PNG) < 0):
-            print('Failed to initialize SDL or any of its parts: ' + sdl2.SDL_GetError())
-            exit(-1)
+            error = sdl2.SDL_GetError().decode('utf-8')
+            print('Failed to initialize SDL or any of its parts: ' + error)
+            sys.exit(-1)
 
         self._window = sdl2.SDL_CreateWindow(
             b'prototype',

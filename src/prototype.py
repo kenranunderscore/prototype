@@ -1,6 +1,6 @@
-import textprocessing
-import textanalysis
-import metrics
+from src import textprocessing
+from src import textanalysis
+from src import metrics
 
 
 class Prototype(object):

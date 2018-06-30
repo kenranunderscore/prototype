@@ -1,6 +1,6 @@
-from core import Core
-from options import Options
-from textrenderer import TextRenderer
+from src.core import Core
+from src.options import Options
+from src.textrenderer import TextRenderer
 
 
 def main():
