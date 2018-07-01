@@ -38,3 +38,8 @@ def test_correct_clips_are_requested(mocker, renderer, clips):
         mocker.call('!')
     ]
     clips.get_clip.assert_has_calls(calls)
+
+
+def test_color_mod_is_set_when_needed(renderer, texture):
+    renderer.render('bar', SDL_Rect(4, 3, 2, 1), 'color')
+    texture.set_color_mod.assert_called_with('color')

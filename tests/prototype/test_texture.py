@@ -1,6 +1,7 @@
 import pytest
 import sdl2
 from prototype import texture
+from prototype.texture import Texture
 
 
 @pytest.fixture
@@ -34,3 +35,8 @@ def test_load_texture_frees_loaded_surface(sdl, surface):
 def test_texture_created_from_surface(mocker, sdl, surface):
     texture.load_texture(None, None)
     sdl.SDL_CreateTextureFromSurface.assert_called_with(mocker.ANY, surface)
+
+def test_free_destroys_texture(sdl):
+    texture = Texture('tex', None, 4, 4)
+    texture.free()
+    sdl.SDL_DestroyTexture.assert_called_with('tex')
