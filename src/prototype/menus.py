@@ -1,9 +1,9 @@
 import ctypes
 import os
 import sdl2
-from src import colorscheme
-from src import indexrotation
-from src.scenetype import SceneType
+from . import colorscheme
+from . import indexrotation
+from .scenetype import SceneType
 
 
 def contains(self, x, y):

@@ -1,16 +1,16 @@
 import pytest
 import sdl2
-from src import texture
+from prototype import texture
 
 
 @pytest.fixture
 def surface(mocker):
-    return mocker.patch('src.texture.sdl2.SDL_Surface')
+    return mocker.patch('prototype.texture.sdl2.SDL_Surface')
 
 
 @pytest.fixture
 def sdl(mocker, surface):
-    sdl = mocker.patch('src.texture.sdl2')
+    sdl = mocker.patch('prototype.texture.sdl2')
     sdl.sdlimage.IMG_Load.return_value = surface
     return sdl 
 

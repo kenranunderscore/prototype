@@ -1,4 +1,4 @@
-from src import textanalysis
+from prototype import textanalysis
 
 
 def test_single_word_count():

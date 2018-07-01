@@ -1,6 +1,6 @@
 import sdl2
-from src.scenetype import SceneType
-from src.colorscheme import ERROR_COLOR, DEFAULT_COLOR
+from .scenetype import SceneType
+from .colorscheme import ERROR_COLOR, DEFAULT_COLOR
 
 
 class GameScene(object):

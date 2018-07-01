@@ -1,5 +1,5 @@
-import src.texture
-import src.letterclips
+from . import texture
+from . import letterclips
 from sdl2 import SDL_Color
 
 

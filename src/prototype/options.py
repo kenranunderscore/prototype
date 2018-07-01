@@ -1,4 +1,4 @@
-import src.constants
+from . import constants
 
 
 class Options(object):

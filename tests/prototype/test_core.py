@@ -1,10 +1,10 @@
 import pytest
-from src import core
+from prototype import core
 
 
 @pytest.fixture
 def sdl(mocker):
-    return mocker.patch('src.core.sdl2')
+    return mocker.patch('prototype.core.sdl2')
 
 
 def test_program_exits_when_sdl_fails_to_load(mocker, sdl):
