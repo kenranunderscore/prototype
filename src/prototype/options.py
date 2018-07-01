@@ -1,4 +1,4 @@
-from . import constants
+from prototype import constants
 
 
 class Options(object):

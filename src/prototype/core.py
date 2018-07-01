@@ -2,10 +2,10 @@ import ctypes
 import sdl2
 import sdl2.sdlimage
 import sys
-from .menus import MainMenu, OptionsMenu, FileChoiceMenu
-from .scenetype import SceneType
-from .gamescene import GameScene
-from .prototype import Prototype
+from prototype.menus import MainMenu, OptionsMenu, FileChoiceMenu
+from prototype.scenetype import SceneType
+from prototype.gamescene import GameScene
+from prototype.prototype import Prototype
 
 
 class Core(object):

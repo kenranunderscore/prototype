@@ -1,4 +1,4 @@
-from .constants import DEFAULT_LETTER_HEIGHT, DEFAULT_LETTER_WIDTH
+from prototype.constants import DEFAULT_LETTER_HEIGHT, DEFAULT_LETTER_WIDTH
 from sdl2 import SDL_Rect
 
 

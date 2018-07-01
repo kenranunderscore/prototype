@@ -1,9 +1,9 @@
 import ctypes
 import os
 import sdl2
-from . import colorscheme
-from . import indexrotation
-from .scenetype import SceneType
+from prototype import colorscheme
+from prototype import indexrotation
+from prototype.scenetype import SceneType
 
 
 def contains(self, x, y):
@@ -117,7 +117,7 @@ class FileChoiceMenu(Menu):
     def __init__(self, text_renderer, options, prototype):
         super(FileChoiceMenu, self).__init__(text_renderer, options)
         self._prototype = prototype
-        path = 'text_sources'
+        path = '../text_sources'
         files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
         self._paths = dict((f, os.path.join(path, f)) for f in files)
         self._items = [MenuItem(f, SceneType.GAME) for f in files]
