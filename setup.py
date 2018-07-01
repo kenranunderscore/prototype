@@ -10,7 +10,8 @@ setuptools.setup(
     description='A typing program',
     author='kenranunderscore',
     url='https://github.com/kenranunderscore/prototype',
-    packages=setuptools.find_packages(exclude=('tests',)),
+    packages=setuptools.find_packages('src'),
+    package_dir={'':'src'},
     install_requires=REQUIRED_PACKAGES,
     include_package_data=True
 )
