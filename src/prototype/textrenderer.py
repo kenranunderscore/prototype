@@ -1,6 +1,6 @@
+import sdl2
 from prototype import texture
 from prototype import letterclips
-from sdl2 import SDL_Color
 
 
 class TextRenderer(object):
@@ -11,7 +11,7 @@ class TextRenderer(object):
         self._letters = texture.load_texture(
             b"../resources/letters.png", # TODO make configurable
             renderer,
-            SDL_Color(0xff, 0, 0xdc))
+            sdl2.SDL_Color(0xff, 0, 0xdc))
 
     def render(self, text, target_area, color=None):
         if color:
