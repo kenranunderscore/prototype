@@ -36,6 +36,7 @@ def test_texture_created_from_surface(mocker, sdl, surface):
     texture.load_texture(None, None)
     sdl.SDL_CreateTextureFromSurface.assert_called_with(mocker.ANY, surface)
 
+
 def test_free_destroys_texture(sdl):
     texture = Texture('tex', None, 4, 4)
     texture.free()

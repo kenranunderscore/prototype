@@ -78,20 +78,21 @@ class Menu(object):
 
     def _calculate_areas(self):
         max_caption_width = max([len(x.caption) for x in self._menu_items])
-        left = self._options.screen_width // 2 - max_caption_width * self._options.scaled_letter_width // 2
-        menu_height = self._options.scaled_letter_height * (2 * len(self._menu_items) - 1)
+        scaled_w = self._options.scaled_letter_width
+        scaled_h = self._options.scaled_letter_height
+        left = self._options.screen_width // 2 - max_caption_width * scaled_w // 2
+        menu_height = scaled_h * (2 * len(self._menu_items) - 1)
         top = (self._options.screen_height - menu_height) // 2
 
         for i, item in enumerate(self._menu_items):
             caption = item.caption
             length = len(caption)
-            offset = (max_caption_width - length) * self._options.scaled_letter_width // 2
+            offset = (max_caption_width - length) * scaled_w // 2
             area = sdl2.SDL_Rect(
                 left + offset,
-                top + 2 * i * self._options.scaled_letter_height,
-                length * self._options.scaled_letter_width,
-                self._options.scaled_letter_height
-            )
+                top + 2 * i * scaled_h,
+                length * scaled_w,
+                scaled_h)
             item.area = area
 
 
@@ -159,8 +160,7 @@ class FileChoiceMenu(Menu):
         self._text_renderer.render(
             '↓',
             sdl2.SDL_Rect(x, y),
-            colorscheme.DEFAULT_COLOR
-        )
+            colorscheme.DEFAULT_COLOR)
 
     def _adjust_visible_items(self, increment):
         next_abs_index = self._index + increment - self.NUMBER_OF_VISIBLE_ITEMS // 2

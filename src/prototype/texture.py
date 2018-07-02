@@ -11,7 +11,9 @@ class Texture(object):
     def render(self, x, y, clip, scale=1.0):
         w = self._width if clip is None else clip.w
         h = self._height if clip is None else clip.h
-        renderArea = sdl2.SDL_Rect(x, y, self._apply_scaling(w, scale), self._apply_scaling(h, scale))
+        scaled_w = self._apply_scaling(w, scale)
+        scaled_h = self._apply_scaling(h, scale)
+        renderArea = sdl2.SDL_Rect(x, y, scaled_w, scaled_h)
         sdl2.SDL_RenderCopy(self._renderer, self._texture, clip, renderArea)
 
     def free(self):
@@ -30,8 +32,7 @@ def load_texture(path, renderer, color_key=None):
         sdl2.SDL_SetColorKey(
             surface,
             1,
-            sdl2.SDL_MapRGB(surface.contents.format, color_key.r, color_key.g, color_key.b)
-        )
+            sdl2.SDL_MapRGB(surface.contents.format, color_key.r, color_key.g, color_key.b))
 
     sdl_texture = sdl2.SDL_CreateTextureFromSurface(renderer, surface)
     texture = Texture(sdl_texture, renderer, surface.contents.w, surface.contents.h)

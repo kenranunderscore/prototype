@@ -30,5 +30,4 @@ class GameScene(object):
         return sdl2.SDL_Rect(
             int(0.3 * self._options.screen_width),
             int(0.5 * self._options.screen_height - 0.5 * self._options.scaled_letter_height),
-            int(0.5 * self._options.screen_width),
-        )
+            int(0.5 * self._options.screen_width))

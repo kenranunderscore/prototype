@@ -11,7 +11,7 @@ setuptools.setup(
     author='kenranunderscore',
     url='https://github.com/kenranunderscore/prototype',
     packages=setuptools.find_packages('src'),
-    package_dir={'':'src'},
+    package_dir={'': 'src'},
     install_requires=REQUIRED_PACKAGES,
     include_package_data=True
 )

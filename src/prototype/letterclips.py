@@ -98,7 +98,7 @@ _clips = {
     '+': _clip_from_indices(4, 4),
     '[': _clip_from_indices(5, 4),
     '{': _clip_from_indices(6, 4),
-    '}' : _clip_from_indices(7, 4),
+    '}': _clip_from_indices(7, 4),
     ']': _clip_from_indices(8, 4),
     '\\': _clip_from_indices(9, 4),
     '|': _clip_from_indices(10, 4),

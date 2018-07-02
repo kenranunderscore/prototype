@@ -9,7 +9,7 @@ class TextRenderer(object):
 
     def initialize(self, renderer):
         self._letters = texture.load_texture(
-            b"../resources/letters.png", # TODO make configurable
+            b"../resources/letters.png",  # TODO make configurable
             renderer,
             sdl2.SDL_Color(0xff, 0, 0xdc))
 
