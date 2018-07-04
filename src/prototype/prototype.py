@@ -20,8 +20,6 @@ class Prototype(object):
         if len(self.text) > 0 and self.text[0] != letter:
             return False
         self._text = self._text[1:]
-        if not self.text:
-            pass
         return True
 
     def wpm(self):
