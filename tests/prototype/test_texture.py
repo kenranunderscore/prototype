@@ -13,7 +13,7 @@ def surface(mocker):
 def sdl(mocker, surface):
     sdl = mocker.patch('prototype.texture.sdl2')
     sdl.sdlimage.IMG_Load.return_value = surface
-    return sdl 
+    return sdl
 
 
 def test_load_texture_loads_correct_image(sdl):
