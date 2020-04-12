@@ -4,12 +4,10 @@ module Prototype.Main
 where
 
 import qualified Brick
-import qualified Brick.Widgets.Center as Center
+import qualified Brick.Widgets.Center          as Center
 
 ui :: Brick.Widget ()
-ui =
-  Center.center (Brick.str "Welcome to prototype")
+ui = Center.center (Brick.str "Welcome to prototype")
 
 main :: IO ()
-main =
-  Brick.simpleMain ui
+main = Brick.simpleMain ui
