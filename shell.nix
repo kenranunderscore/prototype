@@ -1,0 +1,14 @@
+{ pkgs ? import <nixpkgs> {} }:
+
+let
+  prototype = import ./release.nix { inherit pkgs; };
+in
+with pkgs;
+prototype.env.overrideAttrs (oldAttrs: rec {
+  buildInputs = oldAttrs.buildInputs ++ [
+    # Haskell dev tools
+    haskellPackages.cabal2nix
+    haskellPackages.cabal-install
+    haskellPackages.ghc
+  ];
+})
