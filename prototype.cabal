@@ -2,22 +2,16 @@ cabal-version:       2.4
 
 name:                prototype
 version:             0.1.0.0
--- synopsis:
--- description:
 homepage:            https://github.com/kenranunderscore/prototype
--- bug-reports:
 license:             BSD-3-Clause
 license-file:        LICENSE
 author:              Johannes Maier
 maintainer:          johb.maier@gmail.com
--- copyright:
 category:            Text
 extra-source-files:  CHANGELOG.md
 
 library
   exposed-modules:     Prototype.Main
-  -- other-modules:
-  -- other-extensions:
   build-depends:       base ^>=4.13.0.0
                      , brick
   hs-source-dirs:      library
@@ -25,8 +19,6 @@ library
 
 executable prototype
   main-is:             Main.hs
-  -- other-modules:
-  -- other-extensions:
   ghc-options:         -threaded -Wall -Wcompat -O2
   build-depends:       base ^>=4.13.0.0, prototype
   hs-source-dirs:      executable
