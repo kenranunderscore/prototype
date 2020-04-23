@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  prototype = import ./release.nix { inherit pkgs; };
+  prototype = import ./default.nix { inherit pkgs; };
 in
 with pkgs;
 prototype.env.overrideAttrs (oldAttrs: rec {
