@@ -20,7 +20,7 @@ library
   -- other-extensions:
   build-depends:       base ^>=4.13.0.0
                      , brick
-  hs-source-dirs:      src-lib
+  hs-source-dirs:      library
   default-language:    Haskell2010
 
 executable prototype
@@ -29,7 +29,7 @@ executable prototype
   -- other-extensions:
   ghc-options:         -threaded -Wall -Wcompat -O2
   build-depends:       base ^>=4.13.0.0, prototype
-  hs-source-dirs:      src-exe
+  hs-source-dirs:      executable
   default-language:    Haskell2010
 
 test-suite prototype-test
