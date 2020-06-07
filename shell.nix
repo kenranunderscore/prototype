@@ -9,5 +9,8 @@ prototype.env.overrideAttrs (oldAttrs: rec {
     # Haskell dev tools
     haskellPackages.cabal-install
     haskellPackages.ghc
+    haskellPackages.ghcide
+    haskellPackages.ormolu
+    haskellPackages.hlint
   ];
 })
